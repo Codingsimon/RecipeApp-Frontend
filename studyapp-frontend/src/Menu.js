@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react'
+import Button from 'react-bootstrap/Button'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default class Menu extends PureComponent {
     render() {
         return (
             <div>
                   <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-          <a class="navbar-brand" href="#">Top navbar</a>
+          <a class="navbar-brand" href="#">House of Chefs</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -15,10 +17,10 @@ export default class Menu extends PureComponent {
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="#">About us</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Services</a>
               </li>
             </ul>
             <form class="form-inline mt-2 mt-md-0">

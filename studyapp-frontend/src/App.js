@@ -5,14 +5,16 @@ import Recipiecard from './Recipecard.js';
 import Menu from './Menu.js';
 import Recipe from './Recipe.js';
 import Footer from './Footer.js';
+import Styles from './style.css'
+import ContentArea from './ContentArea.js'
+
+
 
 function App() {
   return (
     <div className="App">
-      
       <Menu />
-      <Recipiecard />
-      <Recipe/>
+      <ContentArea/>
       <Footer/>
     </div>
   );

@@ -1,0 +1,18 @@
+/*This is the master Stylesheet for the whole site*/
+.ContentArea {
+    margin: 0 10px;
+}
+
+.Recipecard {
+    padding: 15px 15px;
+    border-width: 1px;
+    border-color: rgb(219, 219, 219);
+    border-style: solid;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.Titlecard img {
+    width: 100%;
+}
+

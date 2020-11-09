@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default class IngredientList extends PureComponent {
     render() {
