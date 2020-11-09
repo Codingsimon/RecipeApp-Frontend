@@ -1,11 +1,16 @@
+<<<<<<< HEAD
 import React from 'react';
 import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css'
+=======
+import './App.css';
+>>>>>>> dfd387a24c7365582a5f20447f020161829bd0b8
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+<<<<<<< HEAD
 
 
 
@@ -63,6 +68,19 @@ function App() {
 
    
         
+=======
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+>>>>>>> dfd387a24c7365582a5f20447f020161829bd0b8
       </header>
     </div>
   );
