@@ -9,7 +9,6 @@ import Styles from './style.css'
 import ContentArea from './ContentArea.js'
 
 
-
 function App() {
   return (
     <div className="App">
