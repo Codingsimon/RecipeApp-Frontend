@@ -1,4 +1,8 @@
 /*This is the master Stylesheet for the whole site*/
+h2{
+
+}
+
 .ContentArea {
     margin: 0 10px;
 }
@@ -14,5 +18,52 @@
 
 .Titlecard img {
     width: 100%;
+}
+
+.cardheader{
+    display: flex;
+    justify-content: space-between;
+    height: 45px;
+}
+
+.amount{
+    font-weight: bold;
+    color: #28a745;
+}
+
+.ingredientlist li p{
+    float: left;
+}
+
+@media only screen and (min-width: 600px) and (max-width: 1000px) {
+    .ContentArea{
+        margin: 0 100px;
+    }
+    .Titlecard img{
+        max-width: 50%;
+    }
+    
+}
+
+@media only screen and (min-width: 1001px) {
+    .ContentArea{
+        margin: 0 20%;
+    }
+    .Titlecard img{
+        height: 200px;
+        width: auto;
+    }
+    .Titlecard{
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row-reverse;
+    }
+    .cardheader{
+        justify-content: space-between;
+        width: 100%;
+    }
+    h2{
+        margin: 75px 30px;
+    }
 }
 
