@@ -15,7 +15,7 @@ export default class IngredientList extends PureComponent {
                         <li><p>vodka</p><p className="amount">1 cl</p></li>
                         <li><p>green apple schnapps</p><p className="amount">2 cl</p></li>
                         <li><p>lemon juice</p><p className="amount">0,25 l</p></li>
-                        <li><p>ice cubes</p><p className="amount">5 pieces</p></li>
+                        <li><p>ice cubes</p><p className="amount">4 pieces</p></li>
                         <li><p>apple slice</p><p className="amount">1</p></li>
                 </ul>
             </div>
