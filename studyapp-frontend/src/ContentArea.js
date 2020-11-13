@@ -21,7 +21,9 @@ export default class ContentArea extends PureComponent {
 
                         <Route path="/addRecipe">
                             <Input/>
-                        
+
+                            
+
                         </Route>
                         
 
