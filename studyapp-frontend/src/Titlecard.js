@@ -4,6 +4,25 @@ import Button from 'react-bootstrap/Button'
 import foodPicture from './food.jpeg';
 
 export default class Titlecard extends PureComponent {
+    constructor(props){
+        super(props);
+        this.state = {
+            items: [],
+            isLoaded: false,
+        }
+    }
+
+    state = {
+        loading: true
+    }
+    
+    async componentDidMount(){
+        const url = "http://localhost:8080/user";
+        const response = fetch(url)
+        const data = (await response).json()
+        console.log(data.results[0])
+    }
+
     render() {
         return (
             <div className="Titlecard">

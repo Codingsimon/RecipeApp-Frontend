@@ -11,7 +11,6 @@ export default class Recipecard extends PureComponent {
                 <Titlecard/>
                 <h3>A sweet and sour electric green drink with a sweet, delicious apple flavor</h3>
                 <p>Written by Sophie</p>
-                <a href="#" class="btn btn-secondary my-2">Read Article</a>
             </div>
         )
     }
