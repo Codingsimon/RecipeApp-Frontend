@@ -7,7 +7,6 @@ export default class Profile extends PureComponent {
         return (
             <div className="profile">
                 <img src={profilepicture} alt="Here is an image"></img>
-                <p3>Sophie</p3>
                 <p>Hi, everyone this is my cookbook. Here you can find great recipes</p>
                 <p>About me</p>
             </div>
