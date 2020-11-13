@@ -3,6 +3,7 @@ import Recipe from './Recipe'
 import Recipiecard from './Recipecard'
 import Styles from './style.css'
 import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom"
+import Input from "./Input"
 
 export default class ContentArea extends PureComponent {
     render() {
@@ -19,7 +20,7 @@ export default class ContentArea extends PureComponent {
                         </Route>
 
                         <Route path="/addRecipe">
-                            <Recipiecard />
+                            <Input/>
                         
                         </Route>
                         
