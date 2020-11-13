@@ -9,14 +9,10 @@ export default class ContentArea extends PureComponent {
         return (
             <div className="ContentArea">
                 <div className="main">
-                    <Recipiecard />
-                    <Recipiecard />
-                    <Recipiecard />
-                    <Recipiecard />
+                    <p>Allooio</p>
+                    <Recipe/>
                 </div>
                 <Sidebar/>
-                {/*
-                <Recipe/>*/}
             </div>
         )
     }
