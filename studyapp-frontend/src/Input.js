@@ -33,7 +33,7 @@ export default function Input() {
 
     function handleAddStepInput(e) {
         const name = stepInputRef.current.value
-        console.log("REF: " + stepInputRef.current.value)
+        console.log("REF: " + name)
 
         setStepInputs(prevInput => {
             return [
@@ -78,7 +78,7 @@ export default function Input() {
 
             <div className="mb-3">
                 <label for="exampleInputEmail1">Title</label>
-                <input ref={stepInputRef}
+                <input 
                     type="text"
                     class="form-control"
                     placeholder="Add title"
@@ -89,7 +89,7 @@ export default function Input() {
 
             <div className="mb-3">
                 <label for="exampleInputEmail1">Description</label>
-                <input ref={stepInputRef}
+                <input 
                     type="text"
                     class="form-control"
                     placeholder="Add title"
@@ -141,7 +141,7 @@ export default function Input() {
 
             <div className="mb-3 mt-3">
                 <label for="exampleInputEmail1">Notes</label>
-                <input ref={stepInputRef}
+                <input 
                     type="text"
                     class="form-control"
                     placeholder="Add title"
@@ -152,7 +152,7 @@ export default function Input() {
 
             <div className="mb-3">
                 <label for="exampleInputEmail1">Summary</label>
-                <input ref={stepInputRef}
+                <input 
                     type="text"
                     class="form-control"
                     placeholder="Add title"
@@ -167,7 +167,7 @@ export default function Input() {
                 </div>
             </form>
 
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-primary" type="submit">Submit form</button>
 
 
         </div>

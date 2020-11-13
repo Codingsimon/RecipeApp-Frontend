@@ -10,7 +10,6 @@ export default function StepInput({stepInput, index, deleteStepInput}) {
         deleteStepInput(stepInput.id)
     }
 
-
     return (
 
 
