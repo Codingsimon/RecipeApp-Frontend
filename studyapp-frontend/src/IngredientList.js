@@ -6,9 +6,9 @@ export default class IngredientList extends PureComponent {
         return (
             <div className="ingredientlist">
                 <h3>IngredientList</h3>
-                <form class="form-inline mt-2 mt-md-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Portions" aria-label="Search"/>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Calcualte</button>
+                <form className="form-inline mt-2 mt-md-0">
+                    <input className="form-control mr-sm-2" type="text" placeholder="Portions" aria-label="Search"/>
+                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Calcualte</button>
             </form>
                 <ul>
                     <form></form>
