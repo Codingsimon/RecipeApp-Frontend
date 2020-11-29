@@ -9,6 +9,7 @@ This project is made with [Create React App](https://github.com/facebook/create-
 In order to run React you need to install Node.js (https://nodejs.org/en/)
 
 Install npm to manage dependencies (https://www.npmjs.com/get-npm)
+intall Axios
 
 Go to the project directory studyapp-frontend with
 
