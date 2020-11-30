@@ -33,7 +33,6 @@ export class RestApi {
             this.dataList = response.data;
             console.log(this.dataList);
         }).catch(error => console.error(error));
-        console.log(this.dataList);
     }
 
     state = {
