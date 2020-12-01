@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import foodPicture from './food.jpeg'
+/*import foodPicture from './food.jpeg'*/
 import axios from 'axios'
 
 export default class Recipecard extends PureComponent {
@@ -9,19 +9,20 @@ export default class Recipecard extends PureComponent {
     }
 
     componentWillMount(){
-        axios.get('https://randomuser.me/api/').then((response) => {
-            this.setState({
-                recipes: response.data
-            })
+        axios.get('https://recipeapp-spring-backend.herokuapp.com/recipe').then((response) => {
+            this.setState({recipes: response.data})
         });
     }
 
     render() {
-        let data = Array.from(this.state.recipes);
-        
-        let recipes = data.map((recipe) => {
+        console.log(this.state.recipes);
+
+        {/*let recipes = data.map((recipe) => {
             return (
                 <div className="Titlecard">
+                    <h2>{recipe}</h2>
+
+
                     <div className="cardheader">    
                         <h2>{recipe.gender}</h2>
                         <button type="button" className="btn btn-outline-primary edit">
@@ -37,13 +38,12 @@ export default class Recipecard extends PureComponent {
                     <p>Written by Sophie</p>
                 </div>
             )
-        });
-        console.log(recipes);
+        });*/}
+
 
         return (
             <div className="Recipecard">
-                <h1>Didikong</h1>
-                {recipes}
+                {this.state.recipes.map(recipe => <h2>{recipe.name}</h2>)}
             </div>
         )
     }
