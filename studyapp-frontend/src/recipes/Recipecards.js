@@ -1,7 +1,8 @@
-import React, { PureComponent } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import foodPicture from '../food.jpeg'
-import axios from 'axios'
+import React, { PureComponent } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import foodPicture from '../food.jpeg';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default class Recipecards extends PureComponent {
     state = {
@@ -20,7 +21,7 @@ export default class Recipecards extends PureComponent {
         let recipes = this.state.recipes.map((recipe) => {
             return (
                     <div className="Titlecard">
-                        <h2>{recipe.name}</h2>
+                        <h2><Link  to={{pathname: '/Recipe', aboutProps:{name:'OOOHHHHAAAyy'}}} >{recipe.name}</Link></h2>
                         {/*<div className="cardheader">    
                             <button type="button" className="btn btn-outline-primary edit">
                                 Edit

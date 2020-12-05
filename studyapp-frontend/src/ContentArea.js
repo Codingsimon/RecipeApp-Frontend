@@ -21,6 +21,11 @@ export default class ContentArea extends PureComponent {
                             <Sidebar></Sidebar>
                         </Route>
 
+                        <Route exact path="/Recipe">
+                            <Recipe />
+                            <Sidebar></Sidebar>
+                        </Route>
+
                         <Route path="/addRecipe">
                             <Input/>
                         </Route>
