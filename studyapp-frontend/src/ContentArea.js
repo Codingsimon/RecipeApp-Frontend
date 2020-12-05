@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
-import Recipe from './Recipe'
-import Recipiecard from './Recipecard'
+import Recipe from './recipes/Recipe'
+import Recipiecards from './recipes/Recipecards'
 import Styles from './style.css'
-import Sidebar from './Sidebar'
+import Sidebar from './sidebar/Sidebar'
 
 import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom"
 import Input from "./Input"
@@ -17,10 +17,7 @@ export default class ContentArea extends PureComponent {
                 <Router>
                     <Switch>
                         <Route exact path="/">
-                            <Recipiecard />
-                            <Recipiecard />
-                            <Recipiecard />
-                            <Recipe/>
+                            <Recipiecards />
                             <Sidebar></Sidebar>
                         </Route>
 

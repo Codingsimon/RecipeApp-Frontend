@@ -11,6 +11,10 @@ h3{
     color: #555555;
 }
 
+.bg-dark {
+    background-color: #51bd32 !important;
+}
+
 .ContentArea {
     display: flex;
     padding: 0 3%;
@@ -36,16 +40,28 @@ h3{
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    padding: 10%;
+    padding: 15px 35%;
 }
 
-.Recipecard {
+.Titlecard {
     padding: 15px 15px;
     border-width: 1px;
-    border-color: rgb(219, 219, 219);
+    background-color: rgb(246, 246, 246);
+    border-color: rgb(246, 246, 246);
     border-style: solid;
-    border-radius: 4px;
+    border-radius: 2px;
     margin: 10px 0;
+}
+
+.Footer{
+    position:fixed;
+    bottom:0px;
+    height: 80px;
+    padding-top: 10px;
+    background-color: #51bd32;
+    width: 100%;
+    text-align: center;
+    color: floralwhite;
 }
 
 .edit{
@@ -55,6 +71,11 @@ h3{
 .Titlecard img {
     width: 100%;
     margin-bottom: 15px;
+    border-radius: 2px;
+}
+
+.Titlecard .author{
+
 }
 
 .cardheader{
@@ -70,6 +91,13 @@ h3{
 
 .ingredientlist li p{
     float: left;
+}
+
+
+.cite,
+.cite a {
+    font-size: 0.9em;
+    color: rgba(36, 36, 36, 0.15);
 }
 
 @media only screen and (max-width: 670px){
@@ -101,9 +129,18 @@ h3{
 }
 
 @media only screen and (min-width: 1261px) {
-    .Recipecard{
+    .Titlecard{
         margin: 3px 10px;
+        width: 25%;
+        float: left;
+        height: 400px;
     }
+
+    .Titlecard img{
+        object-fit: cover;
+        height: 200px;
+    }
+
     .main{
         width: 80%;
         display: grid;

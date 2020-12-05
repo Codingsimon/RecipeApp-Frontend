@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Recipiecard from './Recipecard.js';
+import Recipiecards from './recipes/Recipecards.js';
 import Menu from './Menu.js';
 import Footer from './Footer.js';
 import Styles from './style.css'

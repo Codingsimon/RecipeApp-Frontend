@@ -4,8 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 export default class Footer extends PureComponent {
     render() {
         return (
-            <div>
-                This is my great cooking page
+            <div className="Footer">
+                <p>Besuche uns auf Facebook / Instagram / Pinterest / Twitter</p>
+                <p>Verwaltet bei ...</p>
             </div>
         )
     }
