@@ -12,16 +12,16 @@ export default class Recipecards extends PureComponent {
     componentWillMount(){
         axios.get('https://recipeapp-spring-backend.herokuapp.com/recipe').then((response) => {
             this.setState({recipes: response.data})
+            console.log(response.data)
+            console.log("test")
         });
     }
 
     render() {
-        console.log(this.state.recipes);
-
         let recipes = this.state.recipes.map((recipe) => {
             return (
                     <div className="Titlecard">
-                        <h2><Link  to={{pathname: '/Recipe', aboutProps:{name:'OOOHHHHAAAyy'}}} >{recipe.name}</Link></h2>
+                        <h2><Link  to={`/Recipe/${recipe.uuid}`}>{recipe.name}</Link></h2>
                         {/*<div className="cardheader">    
                             <button type="button" className="btn btn-outline-primary edit">
                                 Edit
