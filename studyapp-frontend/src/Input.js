@@ -5,7 +5,8 @@ import IngredientInputList from "./IngredientInputList"
 import {v4 as uuidv4} from 'uuid'
 import Creatable from 'react-select/creatable';
 import Select from 'react-select'
-
+import Recipe from './model/Recipe'
+import axios from 'axios';
 
 export default function Input() {
 
@@ -27,6 +28,8 @@ export default function Input() {
     const [ingredientInputs, setIngredientInputs] = useState([])
 
     const [selectedIngredient, setSelectedIngredient] = useState([])
+
+    const [titleInput, setTitleInput] = useState('')
 
     const stepInputRef = useRef()
     const ingredientInputRef = useRef()
@@ -59,6 +62,7 @@ export default function Input() {
         })
     }
 
+    
     const handleIngredientChange = e => {
         setSelectedIngredient(e.label);
     }
@@ -73,12 +77,27 @@ export default function Input() {
         setIngredientInputs(newIngredientInputs)
     }
 
+    function postRecipe() {
+        let recipeToAdd = new Recipe(titleInput)
+
+        axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd).then((response) => {
+            console.log("posted")
+        });
+        console.log("tried to post")
+    }
+
+  
+
     return (
+
+
+
         <div class="form-group">
 
             <div className="mb-3">
-                <label for="exampleInputEmail1">Title</label>
-                <input 
+                <label  for="exampleInputEmail1">Title</label>
+                <input value={titleInput}
+                    onChange={evt => setTitleInput(evt.target.value)}
                     type="text"
                     class="form-control"
                     placeholder="Add title"
@@ -167,7 +186,7 @@ export default function Input() {
                 </div>
             </form>
 
-            <button class="btn btn-primary" type="submit">Submit form</button>
+            <button class="btn btn-primary" type="submit" onClick={() => postRecipe()} >Submit form</button>
 
 
         </div>

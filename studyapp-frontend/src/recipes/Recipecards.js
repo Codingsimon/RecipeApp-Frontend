@@ -34,7 +34,7 @@ export default class Recipecards extends PureComponent {
                         <img src={recipe.mainImageUrl} alt="Here is an x"></img>
 
                         <h3>{recipe.description}</h3>
-                        <p className="author">Rezept von {recipe.author.name}</p>
+                        <p className="author">Rezept von {recipe.author ? recipe.author.name : ""}</p>
                     </div>
             )
         });
