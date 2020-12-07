@@ -13,28 +13,31 @@ import axios from 'axios';
 } */
 
 /* let recipe; */
-componentDidMount(){
-    axios.get('https://recipeapp-spring-backend.herokuapp.com/recipe').then((response) => {
-        this.setState({recipes: response.data})
-        console.log(response.data)
-        console.log("test")
-    });
-}
+
+
+
 
 export default class Recipe extends PureComponent {
-    render() {
-        
-        console.log("test")
-        axios.get('https://recipeapp-spring-backend.herokuapp.com/recipe').then((response) => {
-            console.log(response.data)
-            test =10
-            console.log("zeas")
+
+
+    state = {
+        recipe: null
+    }
+
+    
+
+     componentWillMount(){
+        axios.get('https://recipeapp-spring-backend.herokuapp.com/recipe/' + window.location.pathname.split("/").pop()).then((response) => {
+            this.setState({recipe: response.data.name})
         });
-        console.log(test)
-        
+    }
+
+
+
+    render() {
         return (
             <div >
-                <h2>{this.props.name}</h2>
+                <h2>{this.state.recipe}</h2>
                 
                {/*  <Route component={RecipeData} /> */}
                 <IngredientList/>
