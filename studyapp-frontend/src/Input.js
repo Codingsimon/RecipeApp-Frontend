@@ -34,9 +34,10 @@ export default function Input() {
     const stepInputRef = useRef()
     const ingredientInputRef = useRef()
 
+    let fileTemp
+
     function handleAddStepInput(e) {
         const name = stepInputRef.current.value
-        console.log("REF: " + name)
 
         setStepInputs(prevInput => {
             return [
@@ -51,7 +52,6 @@ export default function Input() {
 
     function handleAddIngredientInput(e) {
         const name = selectedIngredient
-        console.log("REF: " + ingredientInputRef.current.value)
         setIngredientInputs(prevInput => {
             return [
                 ...prevInput, {
@@ -79,18 +79,37 @@ export default function Input() {
 
     function postRecipe() {
         let recipeToAdd = new Recipe(titleInput)
-
         axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd).then((response) => {
-            console.log("posted")
+            let formData = new FormData()
+            formData.append('file', fileTemp)
+            formData.append('isMainImage', true)
+            axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe/' + response.data.uuid + '/image',formData).then((response) => {
+                console.log(response.data)
+            });
         });
+
+
+       
+            
+       
+     
+
+       
+
+      
+        console.log(fileTemp)
         console.log("tried to post")
     }
 
-  
+    function handleFileSelected(e) {
+        const file = e.target.files[0]
+        fileTemp = file
+      }
+
 
     return (
 
-
+        
 
         <div class="form-group">
 
@@ -182,7 +201,8 @@ export default function Input() {
             <form>
                 <div class="form-group">
                     <label for="exampleFormControlFile1">Upload image</label>
-                    <input type="file" class="form-control-file" id="exampleFormControlFile1"/>
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1" 
+                            onChange={handleFileSelected}/>
                 </div>
             </form>
 

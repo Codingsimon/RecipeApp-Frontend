@@ -21,7 +21,7 @@ export default class Recipecards extends PureComponent {
         let recipes = this.state.recipes.map((recipe) => {
             return (
                     <div className="Titlecard">
-                        <h2><Link  to={`/Recipe/${recipe.uuid}`}>{recipe.name}</Link></h2>
+                        <h2><Link to={`/Recipe/${recipe.uuid}`}>{recipe.name}</Link></h2>
                         {/*<div className="cardheader">    
                             <button type="button" className="btn btn-outline-primary edit">
                                 Edit
