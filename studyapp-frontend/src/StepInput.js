@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useEffect, useRef} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -11,12 +11,19 @@ export default function StepInput({stepInput, index, deleteStepInput, stepChange
     }
 
     function handleStepChange() {
+        console.log("test")
         stepChange(index, stepRef.current.value)
+
     }
 
     useEffect(() => {    
         stepChange(index, stepInput.name)
-     });
+     }, []);
+
+     
+   
+        
+    
     
 
      console.log("teas")
