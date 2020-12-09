@@ -4,37 +4,31 @@ import StepInputList from "./StepInputList"
 import IngredientInputList from "./IngredientInputList"
 import {v4 as uuidv4} from 'uuid'
 import Creatable from 'react-select/creatable';
-import Select from 'react-select'
 import Recipe from './model/Recipe'
 import axios from 'axios';
 
 export default function Input() {
 
     const options = [
-        {
-            value: 'chocolate',
-            label: 'Chocolate'
-        }, {
-            value: 'strawberry',
-            label: 'Strawberry'
-        }, {
-            value: 'vanilla',
-            label: 'Vanilla'
-        }
-    ]
+        {value: 'chocolate', label: 'Chocolate'},
+        {value: 'strawberry', label: 'Strawberry'},
+        {value: 'vanilla', label: 'Vanilla'}]
 
     const [stepInputs, setStepInputs] = useState([])
-
     const [ingredientInputs, setIngredientInputs] = useState([])
-
     const [selectedIngredient, setSelectedIngredient] = useState([])
+    const [image, setImage] = useState('')
+    const [imageSrc, setImageSrc] = useState('')
 
-    const [titleInput, setTitleInput] = useState('')
+    const [steps, setSteps] = useState([])
 
     const stepInputRef = useRef()
+    const titleInput = useRef()
+    const descriptionInput= useRef()
+    const notesInput= useRef()
     const ingredientInputRef = useRef()
-
-    let fileTemp
+    
+ 
 
     function handleAddStepInput(e) {
         const name = stepInputRef.current.value
@@ -61,7 +55,6 @@ export default function Input() {
             ]
         })
     }
-
     
     const handleIngredientChange = e => {
         setSelectedIngredient(e.label);
@@ -78,84 +71,79 @@ export default function Input() {
     }
 
     function postRecipe() {
-        let recipeToAdd = new Recipe(titleInput)
+        let recipeToAdd = new Recipe(titleInput.current.value)
+        console.log(titleInput.current.value)
         axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd).then((response) => {
             let formData = new FormData()
-            formData.append('file', fileTemp)
+            formData.append('file', image)
             formData.append('isMainImage', true)
             axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe/' + response.data.uuid + '/image',formData).then((response) => {
                 console.log(response.data)
             });
         });
-
-
-       
-            
-       
-     
-
-       
-
-      
-        console.log(fileTemp)
-        console.log("tried to post")
     }
 
     function handleFileSelected(e) {
-        const file = e.target.files[0]
-        fileTemp = file
-      }
+        setImage(e.target.files[0]) 
+        setImageSrc(URL.createObjectURL(e.target.files[0]))
+    }
+
+    function stepChange(index, name) {
+        let stepsTemp = [...steps]
+        stepsTemp[index] = name;
+        setSteps(stepsTemp)
+    }
+
+    console.log(steps)
 
 
+  
     return (
 
-        
-
-        <div class="form-group">
-
+        <div className="form-group">
             <div className="mb-3">
-                <label  for="exampleInputEmail1">Title</label>
-                <input value={titleInput}
-                    onChange={evt => setTitleInput(evt.target.value)}
-                    type="text"
-                    class="form-control"
-                    placeholder="Add title"
-                    aria-label="Recipient's username"
-                    aria-describedby="basic-addon3"/>
-            </div>
-
-
-            <div className="mb-3">
-                <label for="exampleInputEmail1">Description</label>
+                <label >Title</label>
                 <input 
+                    ref={titleInput}
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Add title"
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon3"/>
             </div>
 
-            <label for="exampleInputEmail1">Steps</label>
+            <div className="mb-3">
+                <label>Description</label>
+                <input 
+                    ref={descriptionInput}
+                    type="text"
+                    className="form-control"
+                    placeholder="Add title"
+                    aria-label="Recipient's username"
+                    aria-describedby="basic-addon3"/>
+            </div>
 
-            <div class="input-group mb-2">
+            <label>Steps</label>
+
+            <div className="input-group mb-2">
                 <input ref={stepInputRef}
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Add step"
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon3"/>
-                <div class="input-group-append">
+                <div className="input-group-append">
                     <button onClick={handleAddStepInput}
-                        class="btn btn-outline-secondary "
+                        className="btn btn-outline-secondary "
                         type="button">Add</button>
                 </div>
             </div>
 
             <StepInputList stepInputs={stepInputs}
-                deleteStepInput={deleteStepInput}/>
+                deleteStepInput={deleteStepInput}
+                stepChange = {stepChange}/>
 
-
-            <label className="mt-2" for="exampleInputEmail1">Ingredients</label>
+            <label className="mt-2">Ingredients</label>
 
             <div className="mb-2">
                 <Creatable class="input-group-text " id="basic-addon3"
@@ -164,51 +152,48 @@ export default function Input() {
                     options={options}/>
                 <span>
                     <button onClick={handleAddIngredientInput}
-                        class="btn btn-outline-secondary "
+                        className="btn btn-outline-secondary "
                         type="button">Add</button>
                 </span>
             </div>
-
 
             <IngredientInputList ingredientInputs={ingredientInputs}
                 deleteIngredientInput={deleteIngredientInput}
                 handleIngredientChange={handleIngredientChange}
                 selectedIngredient={selectedIngredient}
                 options={options}/>
-
-
             <div className="mb-3 mt-3">
-                <label for="exampleInputEmail1">Notes</label>
+                <label>Notes</label>
                 <input 
+                    ref={notesInput}
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Add title"
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon3"/>
             </div>
 
-
             <div className="mb-3">
-                <label for="exampleInputEmail1">Summary</label>
+                <label>Summary</label>
                 <input 
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Add title"
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon3"/>
             </div>
 
             <form>
-                <div class="form-group">
-                    <label for="exampleFormControlFile1">Upload image</label>
-                    <input type="file" class="form-control-file" id="exampleFormControlFile1" 
+                <div className="form-group">
+                    <label>Upload image</label>
+                    <input type="file" multiple="multiple" className="form-control-file" id="exampleFormControlFile1" 
                             onChange={handleFileSelected}/>
+                              <img src={imageSrc} />
                 </div>
             </form>
 
-            <button class="btn btn-primary" type="submit" onClick={() => postRecipe()} >Submit form</button>
-
-
+            <button className="btn btn-primary" type="submit" onClick={() => postRecipe()} >Submit form</button>
+            
         </div>
     )
 }

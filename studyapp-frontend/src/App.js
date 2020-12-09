@@ -21,7 +21,6 @@ function App() {
       </h1>
       <Menu />
       <ContentArea/>
-      <Footer/>
     </div>
   );
 }

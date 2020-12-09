@@ -1,32 +1,41 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
-export default function StepInput({stepInput, index, deleteStepInput}) {
-    console.log(stepInput)
+export default function StepInput({stepInput, index, deleteStepInput, stepChange}) {
 
+    const stepRef = useRef()
 
     function handleDeleteStepInput() {
         deleteStepInput(stepInput.id)
     }
 
+    function handleStepChange() {
+        stepChange(index, stepRef.current.value)
+    }
+
+    useEffect(() => {    
+        stepChange(index, stepInput.name)
+     });
+    
+
+     console.log("teas")
     return (
 
-
-        <div class="input-group mt-1">
-            <span class="input-group-text " id="basic-addon3">Step {
+        <div className="input-group mt-1">
+            <span className="input-group-text " id="basic-addon3">Step {
                 index + 1
             }</span>
-            <input defaultValue={
-                    stepInput.name
-                }
+            <input defaultValue={stepInput.name}
+                ref = {stepRef}
+                onChange={handleStepChange}
                 type="text"
-                class="form-control"
+                className="form-control"
                 aria-describedby="basic-addon3"/>
 
-            <div class="input-group-append">
+            <div className="input-group-append">
                 <button onClick={handleDeleteStepInput}
-                    class="btn btn-outline-secondary "
+                    className="btn btn-outline-secondary "
                     type="button">Delete</button>
             </div>
         </div>

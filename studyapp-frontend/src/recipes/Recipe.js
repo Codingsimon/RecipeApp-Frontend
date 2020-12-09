@@ -17,18 +17,31 @@ import axios from 'axios';
 
 
 
-export default class Recipe extends PureComponent {
 
+export default class Recipe extends PureComponent {
+    
+    deleteRecipe () {
+       
+        axios.delete('https://recipeapp-spring-backend.herokuapp.com/recipe/' + this.state.recipe.uuid  ).then((response) => {
+            console.log("zas")
+            console.log(response)
+            this.setState({recipe: {}})
+        });
+    }
+
+    
 
     state = {
-        recipe: null
+        recipe: {}
     }
+
+    
 
     
 
      componentWillMount(){
         axios.get('https://recipeapp-spring-backend.herokuapp.com/recipe/' + window.location.pathname.split("/").pop()).then((response) => {
-            this.setState({recipe: response.data.name})
+            this.setState({recipe: response.data})
         });
     }
 
@@ -37,11 +50,13 @@ export default class Recipe extends PureComponent {
     render() {
         return (
             <div >
-                <h2>{this.state.recipe}</h2>
+                <h2>{this.state.recipe.name}</h2>
                 
-               {/*  <Route component={RecipeData} /> */}
                 <IngredientList/>
                 <Preperation/>
+
+                <button className="btn btn-primary" type="submit" onClick={() => this.deleteRecipe()} >Delete</button>
+            
             </div>
         )
     }

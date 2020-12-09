@@ -1,11 +1,15 @@
-import React, {useState} from 'react'
+import React, {useRef} from 'react'
 import StepInput from "./StepInput"
 
-export default function StepInputList({stepInputs, deleteStepInput}) {
+export default function StepInputList({stepInputs, deleteStepInput, stepChange}) {
+   
             return (
-                stepInputs.map(function(stepInput, index) {
-                    console.log("in List: " + stepInput.name + index)
-                        return <StepInput key = {stepInput.id} stepInput = {stepInput} index = {index} deleteStepInput = {deleteStepInput}/>
+                stepInputs.map(function(stepInput, i) {
+                        return <StepInput key = {stepInput.id}
+                         stepInput = {stepInput} 
+                         index = {i} 
+                         deleteStepInput = {deleteStepInput}
+                         stepChange = {stepChange}/>
                 }) 
          )
 }
