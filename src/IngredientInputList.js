@@ -3,17 +3,17 @@ import IngredientInput from "./IngredientInput"
 
 export default function IngredientInptuList({
     ingredientInputs,
-    deleteIngredientInput,
+    handleDeleteIngredientInput,
     handleIngredientChange,
     options
 }) {
-    return(ingredientInputs.map(function (ingredientInput) {
+    return(ingredientInputs.map((ingredientInput,i)  => {
         return <IngredientInput key={
-                ingredientInput.id
-            }
+                ingredientInput.id}
             ingredientInput={ingredientInput}
-            deleteIngredientInput={deleteIngredientInput}
+            handleDeleteIngredientInput={handleDeleteIngredientInput}
             handleIngredientChange={handleIngredientChange}
-            options = {options}/>
+            options = {options}
+            index = {i}/>
     }))
 }

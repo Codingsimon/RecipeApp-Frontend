@@ -25,11 +25,7 @@ export default class Step {
     * @class
     */
 
-    constructor() {
-        
-        
-        
-    }
+  
 
     /**
     * Constructs a <code>Step</code> from a plain JavaScript object, optionally creating a new instance.

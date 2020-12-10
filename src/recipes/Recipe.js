@@ -21,12 +21,9 @@ import axios from 'axios';
 export default class Recipe extends PureComponent {
     
     deleteRecipe () {
-       
         axios.delete('https://recipeapp-spring-backend.herokuapp.com/recipe/' + this.state.recipe.uuid  ).then((response) => {
-            console.log("zas")
-            console.log(response)
-            this.setState({recipe: {}})
-        });
+            window.location='/'
+        })
     }
 
     

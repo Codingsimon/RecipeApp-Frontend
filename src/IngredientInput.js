@@ -1,32 +1,37 @@
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Creatable from 'react-select/creatable';
 
-export default function IngredientInput({
-    ingredientInput,
-    deleteIngredientInput,
-    handleIngredientChange,
-    selectedIngredient,
-    options
+export default function IngredientInput({ingredientInput, index, handleDeleteIngredientInput, handleIngredientChange, options
 }) {
 
+    const ingredientRef = useRef()
 
-    function handleDeleteIngredientInput() {
-        deleteIngredientInput(ingredientInput.id)
+    function deleteIngredientInput() {
+        handleDeleteIngredientInput(ingredientInput.id, index)
     }
-    console.log("SelectedIngredient: " + selectedIngredient)
+
+    function ingredientChange() {
+        handleIngredientChange(index, ingredientRef.current.state.value.value)
+
+    }
+
+    useEffect(() => {    
+        handleIngredientChange(index, ingredientInput.name)
+     }, []);
 
     return (
 
-
         <div>
             <Creatable 
-                onChange={handleIngredientChange}
+                onChange={ingredientChange}
                 options={options}
-                defaultInputValue={ingredientInput.name}/>
+                defaultInputValue={ingredientInput.name}
+                ref = {ingredientRef}/>
+               
                 <button 
-                    onClick={handleDeleteIngredientInput}
-                    class="btn btn-outline-secondary"
+                    onClick={deleteIngredientInput}
+                    className="btn btn-outline-secondary"
                     type="button">Delete</button>
         </div>
 

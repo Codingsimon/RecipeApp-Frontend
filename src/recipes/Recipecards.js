@@ -12,8 +12,6 @@ export default class Recipecards extends PureComponent {
     componentWillMount(){
         axios.get('https://recipeapp-spring-backend.herokuapp.com/recipe').then((response) => {
             this.setState({recipes: response.data})
-            console.log(response.data)
-            console.log("test")
         });
     }
 

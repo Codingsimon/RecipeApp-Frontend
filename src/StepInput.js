@@ -2,31 +2,23 @@ import React, {useEffect, useRef} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
-export default function StepInput({stepInput, index, deleteStepInput, stepChange}) {
+export default function StepInput({stepInput, index, handleDeleteStepInput, handleStepChange}) {
 
     const stepRef = useRef()
 
-    function handleDeleteStepInput() {
-        deleteStepInput(stepInput.id)
+    function deleteStepInput() {
+        handleDeleteStepInput(stepInput.id)
     }
 
-    function handleStepChange() {
-        console.log("test")
-        stepChange(index, stepRef.current.value)
+    function stepChange() {
+        handleStepChange(index, stepRef.current.value)
 
     }
 
     useEffect(() => {    
-        stepChange(index, stepInput.name)
+        handleStepChange(index, stepInput.name)
      }, []);
 
-     
-   
-        
-    
-    
-
-     console.log("teas")
     return (
 
         <div className="input-group mt-1">
@@ -35,13 +27,13 @@ export default function StepInput({stepInput, index, deleteStepInput, stepChange
             }</span>
             <input defaultValue={stepInput.name}
                 ref = {stepRef}
-                onChange={handleStepChange}
+                onChange={stepChange}
                 type="text"
                 className="form-control"
                 aria-describedby="basic-addon3"/>
 
             <div className="input-group-append">
-                <button onClick={handleDeleteStepInput}
+                <button onClick={deleteStepInput}
                     className="btn btn-outline-secondary "
                     type="button">Delete</button>
             </div>
