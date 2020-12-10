@@ -23,15 +23,13 @@ export default class User {
     * Constructs a new <code>User</code>.
     * @alias module:model/User
     * @class
-    * @param firstName {String} 
-    * @param lastName {String} 
+    * @param name {String} 
     */
 
-    constructor(firstName, lastName) {
+    constructor(name) {
         
         
-        this['firstName'] = firstName;
-        this['lastName'] = lastName;
+        this['name'] = name;
         
     }
 
@@ -47,14 +45,20 @@ export default class User {
             obj = obj || new User();
                         
             
-            if (data.hasOwnProperty('id')) {
-                obj['id'] = ApiClient.convertToType(data['id'], 'Number');
+            if (data.hasOwnProperty('uuid')) {
+                obj['uuid'] = ApiClient.convertToType(data['uuid'], 'String');
+            }
+            if (data.hasOwnProperty('name')) {
+                obj['name'] = ApiClient.convertToType(data['name'], 'String');
+            }
+            if (data.hasOwnProperty('description')) {
+                obj['description'] = ApiClient.convertToType(data['description'], 'String');
             }
             if (data.hasOwnProperty('firstName')) {
                 obj['firstName'] = ApiClient.convertToType(data['firstName'], 'String');
             }
-            if (data.hasOwnProperty('lastName')) {
-                obj['lastName'] = ApiClient.convertToType(data['lastName'], 'String');
+            if (data.hasOwnProperty('imageUrl')) {
+                obj['imageUrl'] = ApiClient.convertToType(data['imageUrl'], 'String');
             }
             if (data.hasOwnProperty('role')) {
                 obj['role'] = ApiClient.convertToType(data['role'], 'String');
@@ -67,17 +71,25 @@ export default class User {
     }
 
     /**
-    * @member {Number} id
+    * @member {String} uuid
     */
-    'id' = undefined;
+    'uuid' = undefined;
+    /**
+    * @member {String} name
+    */
+    'name' = undefined;
+    /**
+    * @member {String} description
+    */
+    'description' = undefined;
     /**
     * @member {String} firstName
     */
     'firstName' = undefined;
     /**
-    * @member {String} lastName
+    * @member {String} imageUrl
     */
-    'lastName' = undefined;
+    'imageUrl' = undefined;
     /**
     * @member {String} role
     */

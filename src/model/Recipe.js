@@ -61,8 +61,8 @@ export default class Recipe {
             if (data.hasOwnProperty('notes')) {
                 obj['notes'] = ApiClient.convertToType(data['notes'], 'String');
             }
-            if (data.hasOwnProperty('category')) {
-                obj['category'] = Category.constructFromObject(data['category']);
+            if (data.hasOwnProperty('categories')) {
+                obj['categories'] = ApiClient.convertToType(data['categories'], [Category]);
             }
             if (data.hasOwnProperty('ingredients')) {
                 obj['ingredients'] = ApiClient.convertToType(data['ingredients'], [Ingredient]);
@@ -109,9 +109,9 @@ export default class Recipe {
     */
     'notes' = undefined;
     /**
-    * @member {module:model/Category} category
+    * @member {Array.<module:model/Category>} categories
     */
-    'category' = undefined;
+    'categories' = undefined;
     /**
     * @member {Array.<module:model/Ingredient>} ingredients
     */
