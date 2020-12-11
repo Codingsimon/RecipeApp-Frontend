@@ -4,23 +4,34 @@ import StepInputList from "./StepInputList"
 import IngredientInputList from "./IngredientInputList"
 import {v4 as uuidv4} from 'uuid'
 import Creatable from 'react-select/creatable';
-import Recipe from './model/Recipe'
+import Recipe from '../model/Recipe'
 import axios from 'axios';
-import Step from './model/Step'
-import Category from './model/Category'
-import Ingredient from './model/Ingredient'
+import Step from '../model/Step'
+import Category from '../model/Category'
+import Ingredient from '../model/Ingredient'
+import CategoryinputList from './CategoryInputList'
+
+
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
+import RangeSlider from 'react-bootstrap-range-slider';
 
 export default function Input() {
 
     //Dropdown options, loaded in useEffect hook
-    const ingredientOptions = []
+   
     const categoryOptions = []
+    const [ingredientOptions, setIngredientOptions] = useState([])
 
     //for rendering lists
     const [stepInputs, setStepInputs] = useState([])
     const [ingredientInputs, setIngredientInputs] = useState([])
+    const [categoryInputs, setCategoyInputs] = useState([])
     const [image, setImage] = useState('')
     const [imageSrc, setImageSrc] = useState('')
+
+    const [difficulty, setDifficulty] = useState('')
+
+    const [selectedIngredient, setSelectedInput] = useState()
 
     //for callback onChange
     const [steps, setSteps] = useState([])
@@ -43,6 +54,11 @@ export default function Input() {
         setIngredientInputs(newIngredientInputs)
     }
 
+    function handleDeleteCategoryInput(id) {
+        const newCategoryInput = categoryInputs.filter(categoryInput => categoryInput.id !== id)
+        setCategoyInputs(newCategoryInput)
+    }
+
     function handleStepChange(index, name) {
         let stepsTemp = [...steps]
         stepsTemp[index] = name;
@@ -50,9 +66,13 @@ export default function Input() {
     }
 
     function handleIngredientChange(index, name){
+        console.log("igchange")
+        console.log(name)
         let ingredientsTemp = [...ingredients]
         ingredientsTemp[index] = name;
         setIngredients(ingredientsTemp)
+        console.log("ingtemp")
+        console.log(ingredientsTemp)
     }
 
 
@@ -65,62 +85,86 @@ export default function Input() {
     const categoryRef = useRef()
     
    
-    useEffect(() => {    
+    useEffect( () => {    
 
         //loads options for dropdown on page load
-        axios.get('https://recipeapp-spring-backend.herokuapp.com/recipe').then((response) => {
-            response.data.forEach(recipe => {
-                if(recipe.category!==null) { 
-                    categoryOptions.push({value: recipe.category.name, label: recipe.category.name})
+        axios.get('https://recipeapp-spring-backend.herokuapp.com/ingredient').then(response => {
+            const ingredientTemp = []
+            response.data.forEach(ingredient => {
+                ingredientTemp.push({value: ingredient.name, label: ingredient.name})
                 }
-                if(recipe.ingredients!==null) {
-                    recipe.ingredients.forEach(ingredient => {
-                        ingredientOptions.push({value: ingredient.name, label: ingredient.name})
-                        
-                    })
+            )
+            setIngredientOptions(ingredientTemp)
+        })
+        axios.get('https://recipeapp-spring-backend.herokuapp.com/category').then(response => {
+            response.data.forEach(category => {
+                console.log(category.name)
+                categoryOptions.push({value: category.name, label: category.name})
                 }
-            })
-        });
-     }, );
+            )
+        })
+                
+     }, []);
 
-    function handleAddStepInput(e) {
-        const name = stepInputRef.current.value
+    function addStepInput() {
+        if(stepInputRef.current.value) {
         setStepInputs(prevInput => {
             return [
                 ...prevInput, {
                     id: uuidv4(),
-                    name: name
+                    name: stepInputRef.current.value
                 }
             ]
         })
+        }
         stepInputRef.current.value = null
     }
 
-    function handleAddIngredientInput(e) {
-        const name = ingredientInputRef.current.state.value.value
+    function addIngredientInput() {
+        if(selectedIngredient) {
+            console.log(selectedIngredient)
         setIngredientInputs(prevInput => {
             return [
                 ...prevInput, {
                     id: uuidv4(),
-                    name: name
+                    selectedInput: selectedIngredient
                 }
             ]
         })
+
+        }
+    }
+
+    function addCategoryInput(e) {
+            console.log("changed")
+            setCategoyInputs(prevInput => {
+                return [
+                    ...prevInput, {
+                        id: uuidv4(),
+                        selectedInput: e
+                    }
+                ]
+            })
+            setSelectedInput(null)
     }
     
-    
-
     function postRecipe() {
-        console.log(getIngredients())
         let recipeToAdd = new Recipe(titleInputRef.current.value)
         recipeToAdd.steps = getSteps()
         recipeToAdd.description = descriptionInputRef
         recipeToAdd.notes = notesInputRef.current.value !== undefined ? notesInputRef.current.value : null
         recipeToAdd.description = descriptionInputRef.current.value !== undefined ? descriptionInputRef.current.value : null
-        let category = new Category()
-        category.name = categoryRef.current.state.value.value
-        recipeToAdd.category = category
+        let categories = []
+
+        categoryInputs.forEach(category => {
+            categories.push(new Category(category.selectedInput.label))
+        })
+        console.log(categories)
+        recipeToAdd.categories = categories
+        console.log(recipeToAdd)
         recipeToAdd.ingredients = getIngredients()
+        console.log(recipeToAdd.ingredients)
+        recipeToAdd.difficulty = difficulty
         axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd).then((response) => {
             if(image!=='') {
                 let formData = new FormData()
@@ -144,10 +188,10 @@ export default function Input() {
 
     function getIngredients(){
         let ingreientArray = []
+        console.log("ings")
+        console.log(ingredients)
         ingredients.forEach( ingredient => {
-            let i = new Ingredient()
-            i.name = ingredient
-            ingreientArray.push(i)
+            ingreientArray.push(new Ingredient(ingredient))
         })
         console.log(ingreientArray)
         return ingreientArray
@@ -158,13 +202,15 @@ export default function Input() {
         setImageSrc(URL.createObjectURL(e.target.files[0]))
     }
 
-    
+    function setValue(e) {
+        setSelectedInput(e)
+    }
 
     return (
 
         <div className="form-group">
             <div className="mb-3">
-                <label >Title</label>
+                <h3 >Title</h3>
                 <input 
                     ref={titleInputRef}
                     type="text"
@@ -174,13 +220,21 @@ export default function Input() {
                     aria-describedby="basic-addon3"/>
             </div>
             <div className="mb-3">
-            <label >Category</label>
+            <h3 >Category</h3>
             <Creatable class="input-group-text " id="basic-addon3"
                     ref={categoryRef}
-                    options={categoryOptions}/>
+                    options={categoryOptions}
+                    onChange={addCategoryInput}/>
+
+                    <CategoryinputList
+                        categoryInputs = {categoryInputs}
+                        handleDeleteCategoryInput = {handleDeleteCategoryInput}
+
+                    />
+
             </div>
             <div className="mb-3">
-                <label>Description</label>
+                <h3>Description</h3>
                 <input 
                     ref={descriptionInputRef}
                     type="text"
@@ -190,7 +244,7 @@ export default function Input() {
                     aria-describedby="basic-addon3"/>
             </div>
 
-            <label>Steps</label>
+            <h3>Steps</h3>
 
             <div className="input-group mb-2">
                 <input ref={stepInputRef}
@@ -200,7 +254,7 @@ export default function Input() {
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon3"/>
                 <div className="input-group-append">
-                    <button onClick={handleAddStepInput}
+                    <button onClick={addStepInput}
                         className="btn btn-outline-secondary "
                         type="button">Add</button>
                 </div>
@@ -210,21 +264,22 @@ export default function Input() {
                 handleDeleteStepInput={handleDeleteStepInput}
                 handleStepChange = {handleStepChange}/>
                 
-            <label className="mt-2">Ingredients</label>
+            <h3 className="mt-2">Ingredients</h3>
 
-            <div className="mb-2">
-                <Creatable class="input-group-text " id="basic-addon3"
-                    onChange={handleIngredientChange}
+            <div className="mb-2" styles="display-flex">
+                <Creatable  
                     ref={ingredientInputRef}
-                    options={ingredientOptions}/>
+                    value={selectedIngredient}
+                    options={ingredientOptions}
+                    onChange={setValue}
+                    />
+                  
                 <span>
-                    <button onClick={handleAddIngredientInput}
-                        className="btn btn-outline-secondary "
+                    <button onClick={addIngredientInput}
+                        className="btn btn-outline-secondary ml-10 "
                         type="button">Add</button>
                 </span>
             </div>
-
-        
             <IngredientInputList ingredientInputs={ingredientInputs}
                 handleDeleteIngredientInput={handleDeleteIngredientInput}
                 handleIngredientChange={handleIngredientChange}
@@ -232,7 +287,7 @@ export default function Input() {
                 />
               
             <div className="mb-3 mt-3">
-                <label>Notes</label>
+                <h3>Notes</h3>
                 <input 
                     ref={notesInputRef}
                     type="text"
@@ -241,20 +296,20 @@ export default function Input() {
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon3"/>
             </div>
-
-          
-
             <form>
-                <div className="form-group">
-                    <label>Upload image</label>
+             
+                    <h3>Upload image</h3>
                     <input type="file" multiple="multiple" className="form-control-file" id="exampleFormControlFile1" 
                             onChange={handleFileSelected}/>
                               <img src={imageSrc} alt="" />
-                </div>
             </form>
-
-            <button className="btn btn-primary" type="submit" onClick={() => postRecipe()} >Submit form</button>
-            
+            <h3 >Difficulty</h3>
+            <RangeSlider
+            value={difficulty}
+            onChange={changeEvent => setDifficulty(changeEvent.target.value)}
+            min={1} max={5}
+    />
+            <button className="btn btn-primary mt-3" type="submit" onClick={() => postRecipe()} >Submit form</button> 
         </div>
     )
 }

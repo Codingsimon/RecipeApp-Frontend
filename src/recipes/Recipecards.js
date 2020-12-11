@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import foodPicture from '../food.jpeg';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 

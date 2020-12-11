@@ -5,7 +5,7 @@ import Styles from './style.css'
 import Sidebar from './sidebar/Sidebar'
 
 import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom"
-import Input from "./Input"
+import Input from "./input/Input"
 
 
 export default class ContentArea extends PureComponent {

@@ -3,7 +3,23 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default class Preperation extends PureComponent {
     render() {
-        return (
+
+        console.log(this.props)
+
+        if(this.props.steps) {
+            return (  
+                <div>
+                    <h3 className= 'mb-0'>Schritte</h3>
+                    {this.props.steps.map(step => {
+                        return <div>{step.description}</div>
+                    })}
+                </div>
+            )
+        }
+        return null
+
+
+       /*  return (
             <div>
                 <h3>Preperation</h3>
                 <ol>
@@ -13,6 +29,6 @@ export default class Preperation extends PureComponent {
                     <li>Garnish with the apple slice.</li>
                 </ol>
             </div>
-        )
+        ) */
     }
 }
