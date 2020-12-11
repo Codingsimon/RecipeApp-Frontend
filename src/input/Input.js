@@ -18,9 +18,9 @@ import RangeSlider from 'react-bootstrap-range-slider';
 export default function Input() {
 
     //Dropdown options, loaded in useEffect hook
-   
-    const categoryOptions = []
+
     const [ingredientOptions, setIngredientOptions] = useState([])
+    const [categoryOptions, setCategoryOptions] = useState([])
 
     //for rendering lists
     const [stepInputs, setStepInputs] = useState([])
@@ -97,11 +97,12 @@ export default function Input() {
             setIngredientOptions(ingredientTemp)
         })
         axios.get('https://recipeapp-spring-backend.herokuapp.com/category').then(response => {
+            const categoryTemp = []
             response.data.forEach(category => {
-                console.log(category.name)
-                categoryOptions.push({value: category.name, label: category.name})
+                categoryTemp.push({value: category.name, label: category.name})
                 }
             )
+            setCategoryOptions(categoryTemp)
         })
                 
      }, []);
@@ -137,15 +138,11 @@ export default function Input() {
                 }
             ]
         })
-
-        
-
         }
-       
+        setSelectedInput(null)
     }
 
     function addCategoryInput(e) {
-            console.log("changed")
             setCategoyInputs(prevInput => {
                 return [
                     ...prevInput, {
@@ -154,7 +151,7 @@ export default function Input() {
                     }
                 ]
             })
-            setSelectedInput(null)
+            categoryRef.current.state = null
     }
     
     function postRecipe() {
@@ -239,8 +236,8 @@ export default function Input() {
 
     return (
 
-        <div className="form-group">
-            <div className="mb-3">
+        <div >
+            <div className="mb-3 form-group">
                 <h3 >Title</h3>
                 <input 
                     ref={titleInputRef}
@@ -250,22 +247,21 @@ export default function Input() {
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon3"/>
             </div>
-            <div className="mb-3">
-            <h3 >Category</h3>
-            <Creatable class="input-group-text " id="basic-addon3"
-                    ref={categoryRef}
-                    options={categoryOptions}
-                    onChange={addCategoryInput}/>
+            <div className="mb-3 form-group">
+                <h3 >Category</h3>
+                <Creatable 
+                        ref={categoryRef}
+                        options={categoryOptions}
+                        onChange={addCategoryInput}/>
 
-                    <CategoryinputList
-                        categoryInputs = {categoryInputs}
-                        handleDeleteCategoryInput = {handleDeleteCategoryInput}
-
-                    />
+                        <CategoryinputList
+                            categoryInputs = {categoryInputs}
+                            handleDeleteCategoryInput = {handleDeleteCategoryInput}
+                        />
 
             </div>
-            <div className="mb-3">
-                <h3>Description</h3>
+            <div className="mb-3 form-group">
+                <h3 >Description</h3>
                 <input 
                     ref={descriptionInputRef}
                     type="text"
@@ -275,19 +271,20 @@ export default function Input() {
                     aria-describedby="basic-addon3"/>
             </div>
 
+            
+            <div className="mb-3 form-group">
             <h3>Steps</h3>
-
-            <div className="input-group mb-2">
-                <input ref={stepInputRef}
-                    type="text"
-                    className="form-control"
-                    placeholder="Add step"
-                    aria-label="Recipient's username"
-                    aria-describedby="basic-addon3"/>
-                <div className="input-group-append">
-                    <button onClick={addStepInput}
-                        className="btn btn-outline-secondary "
-                        type="button">Add</button>
+                <div className = "input-group">
+                    <input ref={stepInputRef}
+                        type="text"
+                        className="form-control"
+                        placeholder="Add step"
+                   />
+                        <button onClick={addStepInput}
+                            className="btn btn-outline-secondary  "
+                            type="button"
+                            
+                            >Add</button>
                 </div>
             </div>
 
@@ -295,9 +292,10 @@ export default function Input() {
                 handleDeleteStepInput={handleDeleteStepInput}
                 handleStepChange = {handleStepChange}/>
                 
-            <h3 className="mt-2">Ingredients</h3>
+           
 
-            <div className="mb-2" styles="display-flex">
+            <div className="mb-2 form-group" >
+            <h3 className="mt-3">Ingredients</h3>
                 <Creatable  
                     ref={ingredientInputRef}
                     value={selectedIngredient}
@@ -305,11 +303,9 @@ export default function Input() {
                     onChange={setValue}
                     />
                   
-                <span>
                     <button onClick={addIngredientInput}
-                        className="btn btn-outline-secondary ml-10 "
+                        className="btn btn-outline-secondary"
                         type="button">Add</button>
-                </span>
             </div>
             <IngredientInputList ingredientInputs={ingredientInputs}
                 handleDeleteIngredientInput={handleDeleteIngredientInput}
@@ -317,7 +313,7 @@ export default function Input() {
                 options={ingredientOptions}
                 />
               
-            <div className="mb-3 mt-3">
+            <div className="mb-3 mt-3  form-group">
                 <h3>Notes</h3>
                 <input 
                     ref={notesInputRef}
@@ -327,20 +323,27 @@ export default function Input() {
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon3"/>
             </div>
-            <form>
-             
-                    <h3>Upload image</h3>
+
+
+     
+          
+            <div className="form-group ">  
+            <h3>Upload image</h3>
+           
                     <input type="file" multiple="multiple" className="form-control-file" id="exampleFormControlFile1" 
                             onChange={handleFileSelected}/>
                               <img src={imageSrc} alt="" />
-            </form>
-            <h3 >Difficulty</h3>
+            </div>
+          
+
+         
+            <h3 className="mt-2" >Difficulty</h3>
             <RangeSlider
-            value={difficulty}
-            onChange={changeEvent => setDifficulty(changeEvent.target.value)}
-            min={1} max={3}
-    />
-            <button className="btn btn-primary mt-3" type="submit" onClick={() => postRecipe()} >Submit form</button> 
+                value={difficulty}
+                onChange={changeEvent => setDifficulty(changeEvent.target.value)}
+                min={1} max={3}
+             />
+            <button className="btn btn-primary " type="submit" onClick={() => postRecipe()} >Submit form</button> 
         </div>
     )
 }
