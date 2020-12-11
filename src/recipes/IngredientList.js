@@ -5,7 +5,6 @@ export default class IngredientList extends PureComponent {
 
 
     render() {
-
         if(this.props.ingredients) {
             return (
                 <div>

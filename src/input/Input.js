@@ -121,7 +121,13 @@ export default function Input() {
     }
 
     function addIngredientInput() {
+        let ingredientsTemp = [...ingredients]
+        console.log("inttemp")
+        console.log(ingredientsTemp)
+        ingredientsTemp.push(selectedIngredient.label)
+        setIngredients(ingredientsTemp)
         if(selectedIngredient) {
+            console.log("add selected")
             console.log(selectedIngredient)
         setIngredientInputs(prevInput => {
             return [
@@ -132,7 +138,10 @@ export default function Input() {
             ]
         })
 
+        
+
         }
+       
     }
 
     function addCategoryInput(e) {
@@ -149,24 +158,42 @@ export default function Input() {
     }
     
     function postRecipe() {
+        
         let recipeToAdd = new Recipe(titleInputRef.current.value)
-        recipeToAdd.steps = getSteps()
-        recipeToAdd.description = descriptionInputRef
-        recipeToAdd.notes = notesInputRef.current.value !== undefined ? notesInputRef.current.value : null
-        recipeToAdd.description = descriptionInputRef.current.value !== undefined ? descriptionInputRef.current.value : null
-        let categories = []
+        if(getSteps().length) {
+            recipeToAdd.steps = getSteps()
+        }
 
+        if(descriptionInputRef.value) {
+            console.log("desc")
+            recipeToAdd.description = descriptionInputRef
+        } 
+     
+
+        if(categoryInputs.length) {
+            let categories = []
         categoryInputs.forEach(category => {
             categories.push(new Category(category.selectedInput.label))
         })
-        console.log(categories)
         recipeToAdd.categories = categories
+        }
+        
+        
+            if(ingredients.length) {
+                console.log("ingredients")
+                recipeToAdd.ingredients = getIngredients()
+            }
+            
+        
+        
+        recipeToAdd.difficulty = Object.keys(Recipe.DifficultyEnum)[difficulty-1]
+       
         console.log(recipeToAdd)
-        recipeToAdd.ingredients = getIngredients()
-        console.log(recipeToAdd.ingredients)
-        recipeToAdd.difficulty = difficulty
         axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd).then((response) => {
+            console.log("resp")
+            console.log(response)
             if(image!=='') {
+              
                 let formData = new FormData()
                 formData.append('file', image)
                 formData.append('isMainImage', true)
@@ -174,6 +201,8 @@ export default function Input() {
                 });
             }
         });
+        
+        
     }
 
     function getSteps(){
@@ -204,6 +233,8 @@ export default function Input() {
 
     function setValue(e) {
         setSelectedInput(e)
+        console.log("selectedip")
+        console.log(e)
     }
 
     return (
@@ -307,7 +338,7 @@ export default function Input() {
             <RangeSlider
             value={difficulty}
             onChange={changeEvent => setDifficulty(changeEvent.target.value)}
-            min={1} max={5}
+            min={1} max={3}
     />
             <button className="btn btn-primary mt-3" type="submit" onClick={() => postRecipe()} >Submit form</button> 
         </div>

@@ -12,26 +12,22 @@ export default function IngredientInput({ingredientInput, index, handleDeleteIng
     }
 
     function ingredientChange() {
-        console.log(ingredientRef)
         handleIngredientChange(index, ingredientRef.current.state.value.value)
 
     }
 
     useEffect(() => {    
-        console.log("ing loaded")
-        console.log(ingredientInput.name)
-        handleIngredientChange(index, valueA.name)
-        console.log(valueA.name)
+        handleIngredientChange(index, ingredientRef.current.state.value.value)
+
      }, []);
 
-     const valueA = ingredientInput.selectedInput
     return (
 
         <div>
             <Creatable 
                 onChange={ingredientChange}
                 options={options}
-                defaultValue= {valueA}
+                defaultValue= {ingredientInput.selectedInput}
                 ref = {ingredientRef}/>
                
                 <button 
