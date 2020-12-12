@@ -19,10 +19,12 @@ export default function StepInput({stepInput, index, handleDeleteStepInput, hand
         handleStepChange(index, stepInput.name)
      }, []);
 
+     console.log("stepinput in stepinput")
+     console.log(stepInput)
     return (
 
         <div className="input-group mt-1">
-            <span className="input-group-text " id="basic-addon3">Step {
+            <span className="input-group-text " id="basic-addon3">Schritt {
                 index + 1
             }</span>
             <input defaultValue={stepInput.name}
@@ -35,7 +37,7 @@ export default function StepInput({stepInput, index, handleDeleteStepInput, hand
             <div className="input-group-append">
                 <button onClick={deleteStepInput}
                     className="btn btn-outline-secondary "
-                    type="button">Delete</button>
+                    type="button">x</button>
             </div>
         </div>
 
