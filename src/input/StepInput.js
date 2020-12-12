@@ -7,7 +7,7 @@ export default function StepInput({stepInput, index, handleDeleteStepInput, hand
     const stepRef = useRef()
 
     function deleteStepInput() {
-        handleDeleteStepInput(stepInput.id)
+        handleDeleteStepInput(stepInput.id, index)
     }
 
     function stepChange() {
@@ -18,9 +18,6 @@ export default function StepInput({stepInput, index, handleDeleteStepInput, hand
     useEffect(() => {    
         handleStepChange(index, stepInput.name)
      }, []);
-
-     console.log("stepinput in stepinput")
-     console.log(stepInput)
     return (
 
         <div className="input-group mt-1">

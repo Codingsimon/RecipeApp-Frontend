@@ -21,14 +21,14 @@ export default class Menu extends PureComponent {
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item active">
-                <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
+                <a className="nav-link" href="/">Home<span className="sr-only">(current)</span></a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/addRecipe">Add Recipe</a>
+                <a className="nav-link" href="/addRecipe">Rezept hinzufügen</a>
               </li>
-              <li className="nav-item">
+       {/*        <li className="nav-item">
                 <a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">Services</a>
-              </li>
+              </li> */}
             </ul>
             <form className="form-inline mt-2 mt-md-0">
               <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"/>

@@ -4,6 +4,7 @@ import Preperation from './Preperation.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
 /* import { Route } from 'react-router-dom' */
 import axios from 'axios';
+import CategoryList from './CategoryList.js';
 
 
 /* const RecipeData = (props) => {
@@ -52,22 +53,25 @@ export default class Recipe extends PureComponent {
                 <h3>{this.state.recipe.description}</h3>
 
 
-                <div>
+            {/*     <div>
                 {() => {if(this.state.recipe.categories) { 
                      <div>Kategorie: {this.state.recipe.categories[0].name}</div>
                 }}}
-                </div>
+                </div> */}
                 
                 
-                <div class="container-fluid w-100 h-auto m-0 p-0">  
-                    <img src={this.state.recipe.mainImageUrl} class="img-fluid w-100 h-auto p-0 m-0" alt="Patience"/>           
+                <div className="container-fluid w-100 h-auto m-0 p-0">  
+                    <img src={this.state.recipe.mainImageUrl} className="img-fluid w-100 h-auto p-0 m-0" alt="Patience"/>           
                 </div> 
+                <CategoryList categories={this.state.recipe.categories}/>
                 <IngredientList className= 'mt-10' ingredients={this.state.recipe.ingredients}/>
                 <Preperation className= 'mt-3' steps = {this.state.recipe.steps}/>
                 <h3 className= 'mt-3'>Notiz</h3>
                 <div>{this.state.recipe.notes}</div>
+                <h3 className= 'mt-3'>Schwierigkeit</h3>
+                <div>{this.state.recipe.difficulty}</div>
 
-                <button className="btn btn-primary mt-3" type="submit" onClick={() => this.deleteRecipe()} >Delete</button>
+                <button className="btn btn-primary mt-3" type="submit" onClick={() => this.deleteRecipe()} >Löschen</button>
             </div>
         )
     }

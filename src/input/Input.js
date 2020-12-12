@@ -33,7 +33,6 @@ export default function Input() {
 
     const [selectedIngredient, setSelectedIngredient] = useState()
     const [selectedCategory, setSelectedCategory] = useState()
-    const [stepInputValue, setStepInputValue] = useState()
 
     //for callback onChange
     const [steps, setSteps] = useState([])
@@ -102,21 +101,23 @@ export default function Input() {
             )
             setCategoryOptions(categoryTemp)
         })
+        setDifficulty(1)
                 
      }, []);
 
     function addStepInput() {
         if(stepInputRef.current.value) {
+            const name = stepInputRef.current.value
         setStepInputs(prevInput => {
             return [
                 ...prevInput, {
                     id: uuidv4(),
-                    name: stepInputRef.current.value
+                    name: name
                 }
             ]
         })
         }
-        setStepInputValue("")
+        stepInputRef.current.value = ""
     }
 
     function addIngredientInput() {
@@ -155,8 +156,12 @@ export default function Input() {
             recipeToAdd.steps = getSteps()
         }
 
-        if(descriptionInputRef.value) {
-            recipeToAdd.description = descriptionInputRef
+        if(descriptionInputRef.current.value) {
+            recipeToAdd.description = descriptionInputRef.current.value
+        } 
+
+        if(notesInputRef.current.value) {
+            recipeToAdd.notes = notesInputRef.current.value
         } 
      
 
@@ -229,9 +234,7 @@ export default function Input() {
     return "Zutat " + value + " erstellen"
     }
 
-    function changeStepInputValue (e) {
-        setStepInputValue(e.value)
-        }
+
 
 
 
@@ -280,8 +283,7 @@ export default function Input() {
             <h3>Schritte</h3>
                 <div className = "input-group">
                     <input ref={stepInputRef}
-                        onChange={changeStepInputValue}
-                        value = {stepInputValue}
+                        
                         type="text"
                         className="form-control"
                         placeholder="Schritt hinzufügen"
