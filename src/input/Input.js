@@ -234,14 +234,10 @@ export default function Input() {
     return "Zutat " + value + " erstellen"
     }
 
-
-
-
-
     return (
 
-        <div >
-            <div className="mb-3 form-group">
+        <div  >
+            <div className=" form-group">
                 <h3 >Titel</h3>
                 <input 
                     ref={titleInputRef}
@@ -252,9 +248,9 @@ export default function Input() {
                     aria-describedby="basic-addon3"/>
             </div>
             <div className="mb-3 form-group">
-                <h3 >Kategorie</h3>
+                <h3 >Kategorien</h3>
                 <Creatable 
-                        placeholder="Kategorie auswählen"
+                        placeholder="Kategorie hinzufügen"
                         formatCreateLabel={formatCreateLabelCategory}
                         ref={categoryRef}
                         options={categoryOptions}
@@ -302,20 +298,26 @@ export default function Input() {
                 
            
 
-            <div className="mb-2 form-group" >
+            <div className="mb-3" >
             <h3 className="mt-3">Zutaten</h3>
-                <Creatable  
-                    placeholder="Zutat auswählen"
-                    formatCreateLabel={formatCreateLabelIngredient}
-                    ref={ingredientInputRef}
-                    value={selectedIngredient}
-                    options={ingredientOptions}
-                    onChange={handleSetSelectedIngredient}
-                    />
-                  
-                    <button onClick={addIngredientInput}
+                <div className = "d-flex">
+                    <div className = "w-100">
+                    <Creatable  
+                 
+            
+                        placeholder="Zutat auswählen"
+                        formatCreateLabel={formatCreateLabelIngredient}
+                        ref={ingredientInputRef}
+                        value={selectedIngredient}
+                        options={ingredientOptions}
+                        onChange={handleSetSelectedIngredient}
+                        />
+                    </div>
+              
+                   <button onClick={addIngredientInput}
                         className="btn btn-outline-secondary"
                         type="button">+</button>
+                </div>
             </div>
             <IngredientInputList ingredientInputs={ingredientInputs}
                 handleDeleteIngredientInput={handleDeleteIngredientInput}
@@ -353,7 +355,8 @@ export default function Input() {
                 onChange={changeEvent => setDifficulty(changeEvent.target.value)}
                 min={1} max={3}
              />
-            <button className="btn btn-primary " type="submit" onClick={() => postRecipe()} >Rezept hinzufügen</button> 
-        </div>
+            <button className="btn btn-primary mb-5" type="submit" onClick={() => postRecipe()} >Rezept hinzufügen</button> 
+           
+        </div >
     )
 }

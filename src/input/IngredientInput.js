@@ -22,18 +22,21 @@ export default function IngredientInput({ingredientInput, index, handleDeleteIng
      }, []);
 
     return (
-
-        <div>
+        
+        <div className = "d-flex mt-1" >
+            <div className = "w-100">
             <Creatable 
                 onChange={ingredientChange}
                 options={options}
                 defaultValue= {ingredientInput.selectedInput}
                 ref = {ingredientRef}/>
+            </div>
+       
                
                 <button 
                     onClick={deleteIngredientInput}
                     className="btn btn-outline-secondary"
-                    type="button">Delete</button>
+                    type="button">x</button>
         </div>
 
     )

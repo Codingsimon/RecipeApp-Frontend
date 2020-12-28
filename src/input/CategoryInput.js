@@ -21,7 +21,7 @@ export default function CategoryInput({categoryInput, handleDeleteCategoryInput}
     
         <button onClick={deleteCategoryInput}
                      className="btn btn-outline-secondary"
-                     type="button">Delete</button>
+                     type="button">x</button>
    
     </div>
 

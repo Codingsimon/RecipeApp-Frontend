@@ -31,7 +31,7 @@ export default function StepInput({stepInput, index, handleDeleteStepInput, hand
                 className="form-control"
                 aria-describedby="basic-addon3"/>
 
-            <div className="input-group-append">
+            <div>
                 <button onClick={deleteStepInput}
                     className="btn btn-outline-secondary "
                     type="button">x</button>
