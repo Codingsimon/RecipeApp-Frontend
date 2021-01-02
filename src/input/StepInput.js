@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import Delete from './icons/Delete'
 
 
 export default function StepInput({stepInput, index, handleDeleteStepInput, handleStepChange}) {
@@ -34,7 +35,9 @@ export default function StepInput({stepInput, index, handleDeleteStepInput, hand
             <div>
                 <button onClick={deleteStepInput}
                     className="btn btn-outline-secondary "
-                    type="button">x</button>
+                    type="button">
+                    <Delete/>
+                    </button>
             </div>
         </div>
 

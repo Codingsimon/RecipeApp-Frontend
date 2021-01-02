@@ -1,6 +1,7 @@
 import React, {useEffect, useRef} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Creatable from 'react-select/creatable';
+import Delete from './icons/Delete';
 
 export default function IngredientInput({ingredientInput, index, handleDeleteIngredientInput, handleIngredientChange, options
 }) {
@@ -36,7 +37,9 @@ export default function IngredientInput({ingredientInput, index, handleDeleteIng
                 <button 
                     onClick={deleteIngredientInput}
                     className="btn btn-outline-secondary"
-                    type="button">x</button>
+                    type="button" button>
+                        <Delete/>
+                    </button>
         </div>
 
     )

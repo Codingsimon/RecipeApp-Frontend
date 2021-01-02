@@ -1,5 +1,6 @@
 import React, {useRef} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import Delete from './icons/Delete'
 
 
 export default function CategoryInput({categoryInput, handleDeleteCategoryInput}) {
@@ -21,8 +22,11 @@ export default function CategoryInput({categoryInput, handleDeleteCategoryInput}
     
         <button onClick={deleteCategoryInput}
                      className="btn btn-outline-secondary"
-                     type="button">x</button>
-   
+                     type="button">
+
+                         <Delete/>
+                     </button>
+    
     </div>
 
 

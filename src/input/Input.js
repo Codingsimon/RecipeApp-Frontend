@@ -11,9 +11,9 @@ import Category from '../model/Category'
 import Ingredient from '../model/Ingredient'
 import CategoryinputList from './CategoryInputList'
 
-
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import RangeSlider from 'react-bootstrap-range-slider';
+import  Plus  from './icons/Plus'
 
 export default function Input() {
 
@@ -256,12 +256,11 @@ export default function Input() {
                         options={categoryOptions}
                         onChange={addCategoryInput}
                         value={selectedCategory}/>
-
-                        <CategoryinputList
-                            categoryInputs = {categoryInputs}
-                            handleDeleteCategoryInput = {handleDeleteCategoryInput}
+                           
+                <CategoryinputList
+                    categoryInputs = {categoryInputs}
+                    handleDeleteCategoryInput = {handleDeleteCategoryInput}
                         />
-
             </div>
             <div className="mb-3 form-group">
                 <h3 >Beschreibung</h3>
@@ -286,9 +285,9 @@ export default function Input() {
                    />
                         <button onClick={addStepInput}
                             className="btn btn-outline-secondary  "
-                            type="button"
-                            
-                            >+</button>
+                            type="button">
+                            <Plus/>
+                        </button>
                 </div>
             </div>
 
@@ -316,7 +315,9 @@ export default function Input() {
               
                    <button onClick={addIngredientInput}
                         className="btn btn-outline-secondary"
-                        type="button">+</button>
+                        type="button">
+                        <Plus/>
+                    </button>
                 </div>
             </div>
             <IngredientInputList ingredientInputs={ingredientInputs}
