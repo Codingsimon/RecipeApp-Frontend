@@ -136,7 +136,7 @@ h3{
 @media only screen and (min-width: 1261px) {
     .Titlecard{
         margin: 3px 10px;
-        width: 25%;
+        width: 40%;
         float: left;
         height: 400px;
     }
@@ -146,11 +146,7 @@ h3{
         height: 200px;
     }
 
-    .main{
-        width: 80%;
-        display: grid;
-        grid-template-columns: 25% 25% 25% 25%;
-    }
+   
     .ContentArea{
         width: 100%;
     }

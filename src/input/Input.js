@@ -10,6 +10,7 @@ import Step from '../model/Step'
 import Category from '../model/Category'
 import Ingredient from '../model/Ingredient'
 import CategoryinputList from './CategoryInputList'
+import ImageList from './ImageList'
 
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import RangeSlider from 'react-bootstrap-range-slider';
@@ -28,8 +29,8 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     const [stepInputs, setStepInputs] = useState([])
     const [ingredientInputs, setIngredientInputs] = useState([])
     const [categoryInputs, setCategoyInputs] = useState([])
-    const [image, setImage] = useState('')
-    const [imageSrc, setImageSrc] = useState('')
+    const [image, setImage] = useState([])
+    const [imageSrc, setImageSrc] = useState([])
 
     const [difficulty, setDifficulty] = useState('')
 
@@ -219,8 +220,16 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     }
 
     function handleFileSelected(e) {
-        setImage(e.target.files[0])
-        setImageSrc(URL.createObjectURL(e.target.files[0]))
+        setImage(...e.target.files)
+        let imageArr = []
+        console.log(Array.from(e.target.files))
+        console.log("targetFiles", e.target.files)
+        Array.from(e.target.files).forEach(file => {
+            console.log("arrayit", file)
+            imageArr.push(URL.createObjectURL(file))
+        });
+        setImageSrc(imageArr)
+        console.log(imageArr)
     }
 
     function handleSetSelectedIngredient(e) {
@@ -331,21 +340,16 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                     onChange={handleFileSelected}/>
                 <label class="custom-file-label" for="customFile">Fotos auswählen</label>
             </div>
-            <img src={imageSrc}
-                alt=""
-                className=".img-fluid"
-                width="100%"/>
+            <ImageList images={imageSrc}/>
             <h3 className="mt-2">Schwierigkeit</h3>
             <RangeSlider value={difficulty}
                 onChange={
-                    changeEvent => setDifficulty(changeEvent.target.value)
+                    e => setDifficulty(e.target.value)
                 }
                 min={1}
                 max={3}/>
             <button className="btn btn-primary mb-5" type="submit"
-                onClick={
-                    () => postRecipe()
-            }>Rezept hinzufügen</button>
+                onClick={postRecipe}>Rezept hinzufügen</button>
 
         </div>
     )
