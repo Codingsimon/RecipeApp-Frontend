@@ -33,7 +33,7 @@ export default class IngredientList extends PureComponent {
                  
                 {this.props.ingredients.map(ingredient => {
                    return <span className = "d-flex">
-                       <div className="mr-2">{ingredient.amount? ingredient.amount*this.state.portions: null}</div>
+                       <div className="mr-2">{ingredient.amount? ingredient.amount*this.state.portions : null}</div>
                        <div className="mr-2">{ingredient.unit? ingredient.unit : null}</div>
                        <div>{ingredient.name}</div>
                    

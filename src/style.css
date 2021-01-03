@@ -66,29 +66,16 @@ h3{
     color: floralwhite;
 }
 
-.edit{
-    height: 37px;
-}
-
 .Titlecard img {
     width: 100%;
     margin-bottom: 15px;
     border-radius: 2px;
 }
 
-.Titlecard .author{
-
-}
-
 .cardheader{
     display: flex;
     justify-content: space-between;
     height: 45px;
-}
-
-.amount{
-    font-weight: bold;
-    color: #28a745;
 }
 
 .ingredientlist li p{
@@ -100,6 +87,34 @@ h3{
 .cite a {
     font-size: 0.9em;
     color: rgba(36, 36, 36, 0.15);
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+  }
+
+.btn-file input[type=file] {
+position: absolute;
+top: 0;
+right: 0;
+min-width: 100%;
+min-height: 100%;
+font-size: 100px;
+text-align: right;
+filter: alpha(opacity=0);
+opacity: 0;
+outline: none;
+background: white;
+cursor: inherit;
+display: block;
+}
+
+.imageDisplay{
+    width: 50%;
+    min-width: 50%;
+    max-width: fit-content;
+    display: block;
 }
 
 .input-group .form-control, .input-group-btn .btn, .custom-file, .custom-file-input, .custom-file-label { z-index: inherit !important; }
@@ -131,12 +146,14 @@ h3{
     h2{
         margin: 75px 30px;
     }
+
+    
 }
 
 @media only screen and (min-width: 1261px) {
     .Titlecard{
         margin: 3px 10px;
-        width: 25%;
+        width: 30%;
         float: left;
         height: 400px;
     }

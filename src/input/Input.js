@@ -29,8 +29,8 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     const [stepInputs, setStepInputs] = useState([])
     const [ingredientInputs, setIngredientInputs] = useState([])
     const [categoryInputs, setCategoyInputs] = useState([])
-    const [image, setImage] = useState([])
-    const [imageSrc, setImageSrc] = useState([])
+    const [images, setImages] = useState([])
+    const [imagesSrc, setImagesSrc] = useState([])
 
     const [difficulty, setDifficulty] = useState('')
 
@@ -183,15 +183,33 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
             recipeToAdd.ingredients = getIngredients()
         }
         recipeToAdd.difficulty = Object.keys(Recipe.DifficultyEnum)[difficulty - 1]
-        if (image) {
-            let formData = new FormData()
-            formData.append('file', image)
-            axios.post('https://recipeapp-spring-backend.herokuapp.com/image', formData).then((response) => {
+        if (images) {
+
+            let imagesToPost = [...images]
+            console.log("imagestopost", imagesToPost)
+            console.log("images", images)
+            const formDataMainImage = new FormData()
+            formDataMainImage.append('file', imagesToPost.shift())
+
+            axios.post('https://recipeapp-spring-backend.herokuapp.com/image', formDataMainImage).then((response) => {
                 recipeToAdd.mainImageUrl = response.data
-                axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd)
+                let imgResponses = []
+                imagesToPost.forEach(image => {
+                    const formDataImages = new FormData()
+                    formDataImages.append('file', image)
+                    axios.post('https://recipeapp-spring-backend.herokuapp.com/image', formDataImages).then((response) => {
+                        imgResponses.push(response.data)
+                    })
+                })
+                recipeToAdd.imageUrls = imgResponses
+                console.log("RecipeToAdd", recipeToAdd)
+
+                axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd).then((response) => {
+                    console.log("RecipeResponse", response.data)
+                })
             })
+
         } else {
-            console.log("awdfaef")
             axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd).then((response1) => {
                 console.log(response1)
             })
@@ -220,7 +238,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     }
 
     function handleFileSelected(e) {
-        setImage(...e.target.files)
+        setImages(e.target.files)
         let imageArr = []
         console.log(Array.from(e.target.files))
         console.log("targetFiles", e.target.files)
@@ -228,7 +246,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
             console.log("arrayit", file)
             imageArr.push(URL.createObjectURL(file))
         });
-        setImageSrc(imageArr)
+        setImagesSrc(imageArr)
         console.log(imageArr)
     }
 
@@ -249,7 +267,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     }
 
     return (
-        <div>
+        <div className="w-50">
             <div className=" form-group">
                 <h3>Titel</h3>
                 <input ref={titleInputRef}
@@ -317,6 +335,17 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                         type="text"
                         className="form-control"
                         placeholder="Schritt hinzufügen"/>
+
+                    <span class="btn btn-outline-secondary btn-file">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+                        </svg>
+                        <input type="file"/>
+                    </span>
+
+
                     <button onClick={addStepInput}
                         className="btn btn-outline-secondary  "
                         type="button">
@@ -340,7 +369,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                     onChange={handleFileSelected}/>
                 <label class="custom-file-label" for="customFile">Fotos auswählen</label>
             </div>
-            <ImageList images={imageSrc}/>
+            <ImageList images={imagesSrc}/>
             <h3 className="mt-2">Schwierigkeit</h3>
             <RangeSlider value={difficulty}
                 onChange={
