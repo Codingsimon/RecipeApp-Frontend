@@ -17,7 +17,7 @@ export default class Recipecards extends PureComponent {
     render() {
         let recipes = this.state.recipes.map((recipe) => {
             return (
-                    <div className="Titlecard">
+                    <div className="Titlecard" href={`/Recipe/${recipe.uuid}`}>
                         <h2><Link to={`/Recipe/${recipe.uuid}`}>{recipe.name}</Link></h2>
                         {/*<div className="cardheader">    
                             <button type="button" className="btn btn-outline-primary edit">
@@ -28,10 +28,10 @@ export default class Recipecards extends PureComponent {
                             </button>
                         </div>*/}
 
-                        <img src={recipe.mainImageUrl} alt="Here is an x"></img>
+                        <img src={recipe.mainImageUrl} alt=" "></img>
 
                         <h3>{recipe.description}</h3>
-                        <p className="author">Rezept von {recipe.author ? recipe.author.name : ""}</p>
+                        <p className="author"> {recipe.author ? "Rezept von " + recipe.author.name : ""}</p>
                     </div>
             )
         });

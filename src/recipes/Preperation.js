@@ -3,9 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default class Preperation extends PureComponent {
     render() {
-
-    
-
+        
         if(this.props.steps) {
             return (  
                 <div>

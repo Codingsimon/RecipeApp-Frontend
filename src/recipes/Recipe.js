@@ -27,15 +27,9 @@ export default class Recipe extends PureComponent {
         })
     }
 
-    
-
     state = {
         recipe: {}
     }
-
-    
-
-    
 
      componentDidMount(){
         axios.get('https://recipeapp-spring-backend.herokuapp.com/recipe/' + window.location.pathname.split("/").pop()).then((response) => {
@@ -43,25 +37,15 @@ export default class Recipe extends PureComponent {
         });
     }
 
-
-
     render() {
         console.log(this.state.recipe)
         return (
             <div >
                 <h1>{this.state.recipe.name}</h1>
                 <h3>{this.state.recipe.description}</h3>
-
-
-            {/*     <div>
-                {() => {if(this.state.recipe.categories) { 
-                     <div>Kategorie: {this.state.recipe.categories[0].name}</div>
-                }}}
-                </div> */}
-                
-                
+                  
                 <div className="container-fluid w-100 h-auto m-0 p-0">  
-                    <img src={this.state.recipe.mainImageUrl} className="img-fluid w-100 h-auto p-0 m-0" alt="Patience"/>           
+                    <img src={this.state.recipe.mainImageUrl} className="img-fluid w-100 h-auto p-0 m-0" alt="loading"/>           
                 </div> 
                 <CategoryList categories={this.state.recipe.categories}/>
                 <IngredientList className= 'mt-10' ingredients={this.state.recipe.ingredients}/>

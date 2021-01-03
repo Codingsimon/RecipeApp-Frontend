@@ -16,17 +16,19 @@ export default function StepInput({stepInput, index, handleDeleteStepInput, hand
 
     }
 
-    useEffect(() => {    
+    useEffect(() => {
         handleStepChange(index, stepInput.name)
-     }, []);
+    }, []);
     return (
 
         <div className="input-group mt-1">
             <span className="input-group-text " id="basic-addon3">Schritt {
                 index + 1
             }</span>
-            <input defaultValue={stepInput.name}
-                ref = {stepRef}
+            <input defaultValue={
+                    stepInput.name
+                }
+                ref={stepRef}
                 onChange={stepChange}
                 type="text"
                 className="form-control"
@@ -37,7 +39,7 @@ export default function StepInput({stepInput, index, handleDeleteStepInput, hand
                     className="btn btn-outline-secondary "
                     type="button">
                     <Delete/>
-                    </button>
+                </button>
             </div>
         </div>
 

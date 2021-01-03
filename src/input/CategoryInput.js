@@ -5,7 +5,6 @@ import Delete from './icons/Delete'
 
 export default function CategoryInput({categoryInput, handleDeleteCategoryInput}) {
 
-
     function deleteCategoryInput() {
         handleDeleteCategoryInput(categoryInput.id)
     }
@@ -13,25 +12,23 @@ export default function CategoryInput({categoryInput, handleDeleteCategoryInput}
 
     return (
 
-
-
         <div className="input-group mt-1">
-        <span className="input-group-text " id="basic-addon3">
-            {categoryInput.selectedInput.label} 
-        </span>
-    
-        <button onClick={deleteCategoryInput}
-                     className="btn btn-outline-secondary"
-                     type="button">
+            <span className="input-group-text " id="basic-addon3">
+                {
+                categoryInput.selectedInput.label
+            } </span>
 
-                         <Delete/>
-                     </button>
-    
-    </div>
+            <button onClick={deleteCategoryInput}
+                className="btn btn-outline-secondary"
+                type="button">
+
+                <Delete/>
+            </button>
+
+        </div>
 
 
-
-/* 
+    /* 
         <div className="input-group mt-1">
             <a href="#">Updates <span className="badge">2</span></a>
             <div className="label label-default"> 
