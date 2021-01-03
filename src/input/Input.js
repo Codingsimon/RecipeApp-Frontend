@@ -30,7 +30,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     const [ingredientInputs, setIngredientInputs] = useState([])
     const [categoryInputs, setCategoyInputs] = useState([])
     const [images, setImages] = useState([])
-    const [imagesSrc, setImagesSrc] = useState([])
+    const [stepImage, setStepImage] = useState()
 
     const [difficulty, setDifficulty] = useState('')
 
@@ -190,10 +190,11 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
             console.log("images", images)
             const formDataMainImage = new FormData()
             formDataMainImage.append('file', imagesToPost.shift())
+            let imgResponses = []
 
-            axios.post('https://recipeapp-spring-backend.herokuapp.com/image', formDataMainImage).then((response) => {
+
+             axios.post('https://recipeapp-spring-backend.herokuapp.com/image', formDataMainImage).then((response) => {
                 recipeToAdd.mainImageUrl = response.data
-                let imgResponses = []
                 imagesToPost.forEach(image => {
                     const formDataImages = new FormData()
                     formDataImages.append('file', image)
@@ -201,13 +202,15 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                         imgResponses.push(response.data)
                     })
                 })
-                recipeToAdd.imageUrls = imgResponses
-                console.log("RecipeToAdd", recipeToAdd)
-
-                axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd).then((response) => {
-                    console.log("RecipeResponse", response.data)
-                })
             })
+
+            recipeToAdd.imageUrls = imgResponses
+            console.log("RecipeToAdd", recipeToAdd)
+            axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd).then((response) => {
+                console.log("RecipeResponse", response.data)
+            })
+
+            
 
         } else {
             axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd).then((response1) => {
@@ -237,17 +240,12 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
         return ingredientArr
     }
 
-    function handleFileSelected(e) {
+    function handleImagesSelected(e) {
         setImages(e.target.files)
-        let imageArr = []
-        console.log(Array.from(e.target.files))
-        console.log("targetFiles", e.target.files)
-        Array.from(e.target.files).forEach(file => {
-            console.log("arrayit", file)
-            imageArr.push(URL.createObjectURL(file))
-        });
-        setImagesSrc(imageArr)
-        console.log(imageArr)
+    }
+
+    function handleStepImageSelected(e) {
+        setStepImage(e.target.file[0])
     }
 
     function handleSetSelectedIngredient(e) {
@@ -344,8 +342,6 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                         </svg>
                         <input type="file"/>
                     </span>
-
-
                     <button onClick={addStepInput}
                         className="btn btn-outline-secondary  "
                         type="button">
@@ -353,6 +349,14 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                     </button>
                 </div>
             </div>
+            {
+              stepImage ?  <img src={
+                    URL.createObjectURL(stepImage)
+                }
+                alt=""
+                className="img-fluid imageDisplay"/> : null
+        }
+
             <StepInputList stepInputs={stepInputs}
                 handleDeleteStepInput={handleDeleteStepInput}
                 handleStepChange={handleStepChange}/>
@@ -366,10 +370,10 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
             <h3>Fotos auswählen</h3>
             <div class="custom-file">
                 <input type="file" class="custom-file-input" id="customFile" multiple
-                    onChange={handleFileSelected}/>
+                    onChange={handleImagesSelected}/>
                 <label class="custom-file-label" for="customFile">Fotos auswählen</label>
             </div>
-            <ImageList images={imagesSrc}/>
+            <ImageList images={images}/>
             <h3 className="mt-2">Schwierigkeit</h3>
             <RangeSlider value={difficulty}
                 onChange={

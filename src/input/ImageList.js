@@ -3,12 +3,12 @@ import React from 'react'
 
 export default function ImageList({images}) {
 
-    console.log("images", images)
+    
     return (
         <div > {
-            images.map(image => {
+            Array.from(images).map(image => {
                 
-                return <img src={image}
+                return <img src={URL.createObjectURL(image)}
                     alt=""
                     className="img-fluid imageDisplay"
                     />
