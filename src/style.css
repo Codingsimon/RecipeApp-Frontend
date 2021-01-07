@@ -154,13 +154,6 @@ cursor: inherit;
 display: block;
 }
 
-.imageDisplay{
-    width: 50%;
-    min-width: 50%;
-    max-width: fit-content;
-    display: block;
-}
-
 .input-group .form-control, .input-group-btn .btn, .custom-file, .custom-file-input, .custom-file-label { z-index: inherit !important; }
 
 @media only screen and (max-width: 670px){

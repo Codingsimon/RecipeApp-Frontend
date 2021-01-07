@@ -15,6 +15,7 @@ import ImageList from './ImageList'
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import RangeSlider from 'react-bootstrap-range-slider';
 import Plus from './icons/Plus'
+import Delete from './icons/Delete'
 import Select from "react-select";
 
 export default function Input() { // Dropdown options, loaded in useEffect hook
@@ -69,6 +70,20 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
         setSteps(stepsTemp)
     }
 
+    function handleStepImageDelete(index) {
+        let stepsTemp = [...stepInputs]
+        console.log(steps)
+        console.log(index)
+        stepsTemp[index].image = null
+        setStepInputs(stepsTemp)
+    }
+
+    function handleStepImageChange(index, image) {
+        let stepsTemp = [...stepInputs]
+        stepsTemp[index].image = image
+        setStepInputs(stepsTemp)
+    }
+
     function handleIngredientChange(index, ingredient) {
         let ingredientsTemp = [...ingredients]
         ingredientsTemp[index] = {
@@ -111,20 +126,24 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     function addStepInput() {
         if (stepInputRef.current.value) {
             const name = stepInputRef.current.value
+            let image = stepImage
             setStepInputs(prevInput => {
                 return [
                     ...prevInput, {
                         id: uuidv4(),
-                        name: name
+                        name: name,
+                        image: stepImage
                     }
                 ]
             })
         }
         stepInputRef.current.value = ""
+        setStepImage(null)
+       
+       
     }
 
     function addIngredientInput() {
-        console.log(amountRef.current.value)
         const amount = amountRef.current.value
         if (selectedIngredient) {
             let ingredientsTemp = [...ingredients]
@@ -184,38 +203,28 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
         }
         recipeToAdd.difficulty = Object.keys(Recipe.DifficultyEnum)[difficulty - 1]
         if (images) {
-
             let imagesToPost = [...images]
-            console.log("imagestopost", imagesToPost)
-            console.log("images", images)
             const formDataMainImage = new FormData()
             formDataMainImage.append('file', imagesToPost.shift())
             let imgResponses = []
-
-
-             axios.post('https://recipeapp-spring-backend.herokuapp.com/image', formDataMainImage).then((response) => {
+            let promises = []
+            axios.post('https://recipeapp-spring-backend.herokuapp.com/image', formDataMainImage).then((response) => {
                 recipeToAdd.mainImageUrl = response.data
                 imagesToPost.forEach(image => {
                     const formDataImages = new FormData()
                     formDataImages.append('file', image)
-                    axios.post('https://recipeapp-spring-backend.herokuapp.com/image', formDataImages).then((response) => {
-                        imgResponses.push(response.data)
-                    })
+                    promises.push(axios.post('https://recipeapp-spring-backend.herokuapp.com/image', formDataImages))
                 })
+                Promise.all(promises).then( responses => {
+                    responses.forEach(response => {
+                        imgResponses.push(response.data)
+                        })
+                        recipeToAdd.imageUrls = imgResponses ? imgResponses : null 
+                        axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd)
+                    });
             })
-
-            recipeToAdd.imageUrls = imgResponses
-            console.log("RecipeToAdd", recipeToAdd)
-            axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd).then((response) => {
-                console.log("RecipeResponse", response.data)
-            })
-
-            
-
         } else {
-            axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd).then((response1) => {
-                console.log(response1)
-            })
+            axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd)
         }
     }
 
@@ -241,11 +250,35 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     }
 
     function handleImagesSelected(e) {
+        setImages(null)
         setImages(e.target.files)
     }
 
+    function handleImageDelete(index) {
+        let imagesTemp = [...images]
+        imagesTemp.splice(index,1)
+        setImages(imagesTemp)
+    }
+
+    function handleMoveImageUp(index) {
+        let imagesTemp = [...images]
+        let temp = imagesTemp[index-1];
+        imagesTemp[index-1] = imagesTemp[index]
+        imagesTemp[index] = temp
+        setImages(imagesTemp)
+    }
+
+    function handleMoveImageDown(index) {
+        let imagesTemp = [...images]
+        let temp = imagesTemp[index+1];
+        imagesTemp[index+1] = imagesTemp[index]
+        imagesTemp[index] = temp
+        setImages(imagesTemp)
+    }
+
     function handleStepImageSelected(e) {
-        setStepImage(e.target.file[0])
+    
+        setStepImage(e.target.files[0])
     }
 
     function handleSetSelectedIngredient(e) {
@@ -326,7 +359,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                 handleDeleteIngredientInput={handleDeleteIngredientInput}
                 handleIngredientChange={handleIngredientChange}
                 options={ingredientOptions}/>
-            <div className="mb-3 mt-3 form-group ">
+            <div className=" mt-3 input-group">
                 <h3>Schritte</h3>
                 <div className="input-group">
                     <input ref={stepInputRef}
@@ -340,7 +373,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                             <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
                         </svg>
-                        <input type="file"/>
+                        <input type="file" onChange={handleStepImageSelected}/>
                     </span>
                     <button onClick={addStepInput}
                         className="btn btn-outline-secondary  "
@@ -349,17 +382,26 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                     </button>
                 </div>
             </div>
-            {
-              stepImage ?  <img src={
-                    URL.createObjectURL(stepImage)
-                }
+            {stepImage? 
+                <div className=" form-group">
+                 <img src={URL.createObjectURL(stepImage)}
+                    className="w-25 mr-3 rounded"
+                
                 alt=""
-                className="img-fluid imageDisplay"/> : null
-        }
+                ></img> 
+                <button onClick={() => setStepImage(null)}
+                className="btn btn-outline-secondary  "
+                type="button">
+                <Delete/>
+                </button> 
+            </div> : null
+            }
 
             <StepInputList stepInputs={stepInputs}
                 handleDeleteStepInput={handleDeleteStepInput}
-                handleStepChange={handleStepChange}/>
+                handleStepChange={handleStepChange}
+                handleStepImageDelete = {handleStepImageDelete}
+                handleStepImageChange = {handleStepImageChange}/>
             <div className="mb-3 mt-3  form-group">
                 <h3>Notizen</h3>
                 <textarea ref={notesInputRef}
@@ -373,7 +415,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                     onChange={handleImagesSelected}/>
                 <label class="custom-file-label" for="customFile">Fotos auswählen</label>
             </div>
-            <ImageList images={images}/>
+            <ImageList images={images} handleImageDelete = {handleImageDelete} handleMoveImageUp = {handleMoveImageUp} handleMoveImageDown={handleMoveImageDown}/>
             <h3 className="mt-2">Schwierigkeit</h3>
             <RangeSlider value={difficulty}
                 onChange={
