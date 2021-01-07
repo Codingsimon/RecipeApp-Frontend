@@ -173,6 +173,9 @@ display: block;
     .sidebar{
         width: 100%;
     }
+    .w-50 {
+        width: 100% !important;
+    }
 }
 
 @media only screen and (min-width: 671px) and (max-width: 1260px) {
@@ -197,6 +200,9 @@ display: block;
     h1{
         text-align: left;
     }
+    .w-50 {
+        width: 100% !important;
+    }
     
 }
 
@@ -215,10 +221,6 @@ display: block;
 
     .Recipecards{
         width: 100%;
-    }
-
-    .recipe{
-        margin-left: 20%;
     }
 
     .cardheader{
