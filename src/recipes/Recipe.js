@@ -40,16 +40,18 @@ export default class Recipe extends PureComponent {
     render() {
         console.log(this.state.recipe)
         return (
-            <div >
+            <div className="recipe">
                 <h1>{this.state.recipe.name}</h1>
                 <h3>{this.state.recipe.description}</h3>
                   
                 <div className="container-fluid w-100 h-auto m-0 p-0">  
                     <img src={this.state.recipe.mainImageUrl} className="img-fluid w-100 h-auto p-0 m-0" alt="loading"/>           
-                </div> 
+                </div>
+
                 <CategoryList categories={this.state.recipe.categories}/>
                 <IngredientList className= 'mt-10' ingredients={this.state.recipe.ingredients}/>
                 <Preperation className= 'mt-3' steps = {this.state.recipe.steps}/>
+                
                 <h3 className= 'mt-3'>Notiz</h3>
                 <div>{this.state.recipe.notes}</div>
                 <h3 className= 'mt-3'>Schwierigkeit</h3>

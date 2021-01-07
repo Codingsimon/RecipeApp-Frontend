@@ -2,6 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Menu from './Menu.js';
 import ContentArea from './ContentArea.js'
+import Footer from './Footer'
 
 function App() {
 
@@ -9,11 +10,9 @@ function App() {
 
   return (
     <div className="App">
-
-      <h1>  
-      </h1>
       <Menu />
       <ContentArea/>
+      <Footer></Footer>
     </div>
   );
 }

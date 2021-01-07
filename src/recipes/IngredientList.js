@@ -21,25 +21,29 @@ export default class IngredientList extends PureComponent {
         console.log("portions", this.portions)
         if(this.props.ingredients) {
             return (
-                <div>
-                <h3 >Zutaten</h3>  
-                <h4 >Portionen</h4>  
-                <input
-                    value={this.state.portions}
-                    onChange = {this.setPortions}
-                    type="number"
-                    className="form-control w-25"
-                 />
-                 
-                {this.props.ingredients.map(ingredient => {
-                   return <span className = "d-flex">
-                       <div className="mr-2">{ingredient.amount? ingredient.amount*this.state.portions : null}</div>
-                       <div className="mr-2">{ingredient.unit? ingredient.unit : null}</div>
-                       <div>{ingredient.name}</div>
-                   
-                   </span>
-                })}
-            </div>
+                <div className="ingredientList">
+                    <h3 >Zutaten</h3>  
+                    
+                    {this.props.ingredients.map(ingredient => {
+                    return <span className = "d-flex">
+                        <div className="mr-2">{ingredient.amount? ingredient.amount*this.state.portions : null}</div>
+                        <div className="mr-2">{ingredient.unit? ingredient.unit : null}</div>
+                        <div>{ingredient.name}</div>
+                    
+                    </span>
+                    })}
+
+                    <div className="portions">
+                        <h4 >Portionen</h4>  
+                        <input
+                            value={this.state.portions}
+                            onChange = {this.setPortions}
+                            type="number"
+                            className="form-control w-25"
+                        />
+                    </div>
+
+                </div>
             )
         }
         return null
