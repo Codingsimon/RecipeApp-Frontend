@@ -1,7 +1,7 @@
 import React, {useRef} from 'react'
 import StepInput from "./StepInput"
 
-export default function StepInputList({stepInputs, handleDeleteStepInput, handleStepChange}) {
+export default function StepInputList({stepInputs, handleDeleteStepInput, handleStepChange, handleStepImageDelete, handleStepImageChange}) {
     return(stepInputs.map((stepInput, i) => {
         return <StepInput key={
                 stepInput.id
@@ -9,6 +9,8 @@ export default function StepInputList({stepInputs, handleDeleteStepInput, handle
             stepInput={stepInput}
             index={i}
             handleDeleteStepInput={handleDeleteStepInput}
-            handleStepChange={handleStepChange}/>
+            handleStepChange={handleStepChange}
+            handleStepImageDelete = {handleStepImageDelete}
+            handleStepImageChange = {handleStepImageChange}/>
     }))
 }
