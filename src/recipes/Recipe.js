@@ -5,7 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 /* import { Route } from 'react-router-dom' */
 import axios from 'axios';
 import CategoryList from './CategoryList.js';
-
+import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
+import DeleteButton from './DeleteButton.js';
 
 /* const RecipeData = (props) => {
     console.log("------------------------------------------------------------");
@@ -20,16 +21,11 @@ import CategoryList from './CategoryList.js';
 
 
 export default class Recipe extends PureComponent {
-    
-    deleteRecipe () {
-        axios.delete('https://recipeapp-spring-backend.herokuapp.com/recipe/' + this.state.recipe.uuid  ).then((response) => {
-            window.location='/'
-        })
-    }
 
     state = {
-        recipe: {}
+        recipe: {},
     }
+
 
      componentDidMount(){
         axios.get('https://recipeapp-spring-backend.herokuapp.com/recipe/' + window.location.pathname.split("/").pop()).then((response) => {
@@ -57,7 +53,7 @@ export default class Recipe extends PureComponent {
                 <h3 className= 'mt-3'>Schwierigkeit</h3>
                 <div>{this.state.recipe.difficulty}</div>
 
-                <button className="btn btn-primary mt-3" type="submit" onClick={() => this.deleteRecipe()} >Löschen</button>
+                <DeleteButton></DeleteButton>
             </div>
         )
     }

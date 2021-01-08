@@ -1,9 +1,14 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import LoginButton from './model/LoginButton.js'
+import LogOutButton from './model/LogOutButton.js'
+import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 
-export default class Menu extends PureComponent {
-    render() {
+
+const Menu = () => {
+        const { user, isAuthenticated } = useAuth0();
+
         return (
             <div>
                   <nav className="navbar navbar-expand-md navbar-dark bg-dark mb-4">
@@ -24,19 +29,34 @@ export default class Menu extends PureComponent {
                 <a className="nav-link" href="/">Home<span className="sr-only">(current)</span></a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/addRecipe">Rezept hinzufügen</a>
+                  {isAuthenticated ? (
+                    <LogOutButton></LogOutButton>
+                  ) : (
+                    <LoginButton></LoginButton>
+                  )}  
               </li>
-       {/*        <li className="nav-item">
-                <a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">Services</a>
-              </li> */}
+              <li className="nav-item">
+              {isAuthenticated ? (
+                  <a className="nav-link" href="/addRecipe">Rezept hinzufügen</a>
+              ) : (
+                  null
+              )}
+
+              </li>
             </ul>
             <form className="form-inline mt-2 mt-md-0">
-              <input className="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"/>
-              <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              {isAuthenticated ? (
+                  <img src={user.picture} alt={user.name}></img>
+              ) : (
+                  null
+              )}  
+
+              
             </form>
           </div>
         </nav>
             </div>
         )
     }
-}
+
+export default Menu
