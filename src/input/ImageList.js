@@ -34,9 +34,7 @@ export default function ImageList({images, handleImageDelete, handleMoveImageUp,
 
                         <span className="d-flex align-items-center">
                         <span className="d-inline-block" >
-                            {
-                                
-                            }
+                        
                             {index>0&&images.length>1? (<div >
                                         <button onClick={() => moveImageUp(index)}
                                         className="btn btn-outline-secondary mt-1 mb-1"

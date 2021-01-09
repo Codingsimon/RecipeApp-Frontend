@@ -40,13 +40,9 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     const [selectedCategory, setSelectedCategory] = useState()
 
     // for callback onChange
-    const [steps, setSteps] = useState([])
     const [ingredients, setIngredients] = useState([])
 
-    function handleDeleteStepInput(id, index) {
-        const stepsTemp = [...steps]
-        stepsTemp.splice(index, 1)
-        setSteps(stepsTemp)
+    function handleDeleteStepInput(id) {
         const newStepinputs = stepInputs.filter(stepInput => stepInput.id !== id)
         setStepInputs(newStepinputs)
     }
@@ -65,15 +61,13 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     }
 
     function handleStepChange(index, name) {
-        let stepsTemp = [...steps]
-        stepsTemp[index] = name;
-        setSteps(stepsTemp)
+        let stepsTemp = [...stepInputs]
+        stepsTemp[index].name = name;
+        setStepInputs(stepsTemp)
     }
 
     function handleStepImageDelete(index) {
         let stepsTemp = [...stepInputs]
-        console.log(steps)
-        console.log(index)
         stepsTemp[index].image = null
         setStepInputs(stepsTemp)
     }
@@ -139,8 +133,6 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
         }
         stepInputRef.current.value = ""
         setStepImage(null)
-       
-       
     }
 
     function addIngredientInput() {
@@ -180,62 +172,48 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     }
 
     function postRecipe() {
-        console.log("ingredients", ingredients)
-        let recipeToAdd = new Recipe(titleInputRef.current.value)
-        if (getSteps().length) {
-            recipeToAdd.steps = getSteps()
-        }
-        if (descriptionInputRef.current.value) {
-            recipeToAdd.description = descriptionInputRef.current.value
-        }
-        if (notesInputRef.current.value) {
-            recipeToAdd.notes = notesInputRef.current.value
-        }
-        if (categoryInputs.length) {
-            let categories = []
-            categoryInputs.forEach(category => {
-                categories.push(new Category(category.selectedInput.label))
+        let recipe = new Recipe(titleInputRef.current.value)
+        recipe.description = descriptionInputRef.current.value ? descriptionInputRef.current.value : null
+        recipe.notes = notesInputRef.current.value ? notesInputRef.current.value : null
+        recipe.ingredients = getIngredients()
+        recipe.categories = getCategories()
+        recipe.steps = getSteps()
+        recipe.difficulty = Object.keys(Recipe.DifficultyEnum)[difficulty - 1]
+
+        let imagesToPost = [...images]
+        let imgResponses, promises  = []
+        let mainImagePromise
+        if(images.length>0) mainImagePromise = axios.post('https://recipeapp-spring-backend.herokuapp.com/image', generateFormData(imagesToPost.shift()))
+        Promise.resolve(mainImagePromise).then(response => {
+            recipe.mainImageUrl = response? response.data : null
+            imagesToPost.forEach(image => {
+                promises.push(axios.post('https://recipeapp-spring-backend.herokuapp.com/image', generateFormData(image)))
             })
-            recipeToAdd.categories = categories
-        }
-        if (ingredients.length) {
-            recipeToAdd.ingredients = getIngredients()
-        }
-        recipeToAdd.difficulty = Object.keys(Recipe.DifficultyEnum)[difficulty - 1]
-        if (images) {
-            let imagesToPost = [...images]
-            const formDataMainImage = new FormData()
-            formDataMainImage.append('file', imagesToPost.shift())
-            let imgResponses = []
-            let promises = []
-            axios.post('https://recipeapp-spring-backend.herokuapp.com/image', formDataMainImage).then((response) => {
-                recipeToAdd.mainImageUrl = response.data
-                imagesToPost.forEach(image => {
-                    const formDataImages = new FormData()
-                    formDataImages.append('file', image)
-                    promises.push(axios.post('https://recipeapp-spring-backend.herokuapp.com/image', formDataImages))
-                })
-                Promise.all(promises).then( responses => {
-                    responses.forEach(response => {
-                        imgResponses.push(response.data)
-                        })
-                        recipeToAdd.imageUrls = imgResponses ? imgResponses : null 
-                        axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd)
-                    });
-            })
-        } else {
-            axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipeToAdd)
-        }
+            Promise.all(promises).then(responses => {
+                responses.forEach(response => {
+                    imgResponses.push(response.data)
+                    })
+                recipe.imageUrls = imgResponses 
+                let stepPromises = []
+                stepInputs.forEach(step => {
+                    if(step.image) {
+                        stepPromises.push(axios.post('https://recipeapp-spring-backend.herokuapp.com/image', generateFormData(step.image)))
+                    }
+                })            
+                Promise.all(stepPromises).then(responses => {
+                    stepInputs.forEach((step,index) => {
+                        recipe.steps[index].imageURL = step.image ? responses.shift().data : null
+                    })
+                    axios.post('https://recipeapp-spring-backend.herokuapp.com/recipe', recipe)
+                }) 
+            });
+        })
     }
 
-    function getSteps() {
-        let stepArray = []
-        steps.forEach(step => {
-            let s = new Step();
-            s.description = step
-            stepArray.push(s)
-        })
-        return stepArray
+    function generateFormData(file){
+        const formData = new FormData()
+        formData.append('file', file)
+        return formData
     }
 
     function getIngredients() {
@@ -246,11 +224,28 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
             ingredientToAdd.unit = ingredient.unit
             ingredientArr.push(ingredientToAdd)
         })
-        return ingredientArr
+        return ingredientArr ? ingredientArr : null
+    }
+
+    function getCategories(){
+        let categories = []
+        categoryInputs.forEach(category => {
+            categories.push(new Category(category.selectedInput.label))
+        })
+        return categories ? categories : null
+    }
+
+    function getSteps() {
+        let stepArray = []
+        stepInputs.forEach(step => {
+            let s = new Step();
+            s.description = step.name
+            stepArray.push(s)
+        })
+        return stepArray ? stepArray : null
     }
 
     function handleImagesSelected(e) {
-        setImages(null)
         setImages(e.target.files)
     }
 
@@ -277,7 +272,6 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     }
 
     function handleStepImageSelected(e) {
-    
         setStepImage(e.target.files[0])
     }
 
@@ -366,9 +360,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                         type="text"
                         className="form-control"
                         placeholder="Schritt hinzufügen"/>
-
                     <span class="btn btn-outline-secondary btn-file">
-
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
                             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                             <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
@@ -386,8 +378,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                 <div className=" form-group">
                  <img src={URL.createObjectURL(stepImage)}
                     className="w-25 mr-3 rounded"
-                
-                alt=""
+                    alt=""
                 ></img> 
                 <button onClick={() => setStepImage(null)}
                 className="btn btn-outline-secondary  "
@@ -396,7 +387,6 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                 </button> 
             </div> : null
             }
-
             <StepInputList stepInputs={stepInputs}
                 handleDeleteStepInput={handleDeleteStepInput}
                 handleStepChange={handleStepChange}
@@ -425,7 +415,6 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
                 max={3}/>
             <button className="btn btn-primary mb-5" type="submit"
                 onClick={postRecipe}>Rezept hinzufügen</button>
-
         </div>
     )
 }
