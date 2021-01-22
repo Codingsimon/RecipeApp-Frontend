@@ -5,6 +5,7 @@ import IngredientInputList from "./IngredientInputList"
 import {v4 as uuidv4} from 'uuid'
 import Creatable from 'react-select/creatable';
 import Recipe from '../model/Recipe'
+import UnitOptions from '../model/UnitOptions'
 import axios from 'axios';
 import Step from '../model/Step'
 import Category from '../model/Category'
@@ -21,10 +22,8 @@ import Select from "react-select";
 export default function Input() { // Dropdown options, loaded in useEffect hook
     const [ingredientOptions, setIngredientOptions] = useState([])
     const [categoryOptions, setCategoryOptions] = useState([])
-    const [unitOptions] = useState([{
-            value: Ingredient.UnitEnum.GRAM,
-            label: Ingredient.UnitEnum.GRAM
-        }])
+ 
+    const [unitOptions] = useState(UnitOptions.options)
 
     // for rendering lists
     const [stepInputs, setStepInputs] = useState([])
@@ -97,6 +96,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     const amountRef = useRef()
     const unitRef = useRef()
     const categoryRef = useRef()
+    const portionRef = useRef()
 
     useEffect(() => { // loads options for dropdown on page load
         axios.get('https://recipeapp-spring-backend.herokuapp.com/ingredient').then(response => {
@@ -114,6 +114,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
             setCategoryOptions(categoryTemp)
         })
         setDifficulty(1)
+        console.log("UO", UnitOptions.options)
         setSelectedUnit(unitOptions[0])
     }, []);
 
@@ -290,6 +291,23 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
     function formatCreateLabelIngredient(value) {
         return "Zutat " + value + " erstellen"
     }
+    
+    let portionAmount;
+    function validatePortion(e) {
+        if(e.target.value || deleteKey ) {
+            deleteKey = false
+            let actualValue = e.target.value>99? parseInt(e.target.value/10)  : e.target.value;
+            portionRef.current.value =  actualValue
+            portionAmount = actualValue
+        } else {
+           portionRef.current.value = portionAmount
+        } 
+    }
+
+    let deleteKey
+    function deleteKeyPressed(){
+        deleteKey = true;
+    }
 
     return (
         <div className="w-50">
@@ -319,7 +337,7 @@ export default function Input() { // Dropdown options, loaded in useEffect hook
             </div>
             <div className="mb-3 form-group">
                 <h3>Portionen</h3>
-                <input type="text" className="form-control" placeholder="Anzahl"/>
+                <input type="number" min="1" max="99"   className="form-control" placeholder="Anzahl" ref={portionRef} onKeyDown={ (evt) => (evt.key === 'Backspace' || evt.key == 'Delete') && deleteKeyPressed(evt.key)}  />
             </div>
             <div className="mb-3">
                 <h3 className="mt-3">Zutaten</h3>

@@ -32,6 +32,8 @@ export default class Recipe extends PureComponent {
             this.setState({recipe: response.data})
         });
     }
+    
+    
 
     render() {
         console.log(this.state.recipe)
@@ -41,11 +43,11 @@ export default class Recipe extends PureComponent {
                 <h3>{this.state.recipe.description}</h3>
                   
                 <div className="container-fluid w-100 h-auto m-0 p-0">  
-                    <img src={this.state.recipe.mainImageUrl} className="img-fluid w-100 h-auto p-0 m-0" alt="loading"/>           
+                    <img src={this.state.recipe.mainImageUrl} className="img-fluid w-75 h-auto p-0 m-0 rounded " alt="loading"/>           
                 </div>
 
                 <CategoryList categories={this.state.recipe.categories}/>
-                <IngredientList className= 'mt-10' ingredients={this.state.recipe.ingredients}/>
+                <IngredientList className= 'mt-10 w-25' ingredients={this.state.recipe.ingredients}/>
                 <Preperation className= 'mt-3' steps = {this.state.recipe.steps}/>
                 
                 <h3 className= 'mt-3'>Notiz</h3>

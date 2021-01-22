@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Creatable from 'react-select/creatable';
 import Delete from './icons/Delete';
 import Select from "react-select";
+import UnitOptions from '../model/UnitOptions';
 
 export default function IngredientInput({
     ingredientInput,
@@ -11,15 +12,7 @@ export default function IngredientInput({
     handleIngredientChange,
     options
 }) {
-    const options1 = [
-        {
-            value: "g",
-            label: "g"
-        }, {
-            value: "ml",
-            label: "ml"
-        }
-    ]
+    const options1 = UnitOptions.options
     const ingredientRef = useRef()
     const amountRef = useRef()
     const unitRef = useRef()
