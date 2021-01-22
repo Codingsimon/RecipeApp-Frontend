@@ -53,15 +53,6 @@ export default class Recipe extends PureComponent {
                 <h3 className= 'mt-3'>Schwierigkeit</h3>
                 <div>{this.state.recipe.difficulty}</div>
 
-
-                {isAuthenticated ? (
-                  <h2>{user.name}</h2>,
-                  <img src={user.picture} alt={user.name}></img>
-              ) : (
-                  null
-              )}  
-
-
                 <DeleteButton></DeleteButton>
             </div>
         )
