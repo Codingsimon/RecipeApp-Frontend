@@ -15,7 +15,7 @@ const DeleteButton = () => {
         {isAuthenticated ? (
             <button className="btn btn-primary mt-3" type="submit" onClick={() => deleteRecipe()} >Löschen</button>
           ) : (
-            <p>Fuucked</p>
+            <button className="btn btn-primary mt-3" type="submit" onClick={() => deleteRecipe()} >Löschen</button>
           )}
         </div>
     )

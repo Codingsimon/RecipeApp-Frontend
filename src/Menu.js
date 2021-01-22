@@ -33,7 +33,10 @@ const Menu = () => {
                     <LogOutButton></LogOutButton>
                   ) : (
                     <LoginButton></LoginButton>
-                  )}  
+                  )}
+                  {/*OAuth Daten*/}
+                  {user}
+
               </li>
               <li className="nav-item">
               {isAuthenticated ? (
