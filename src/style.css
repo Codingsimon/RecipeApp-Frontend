@@ -23,6 +23,15 @@ h4{
     margin-top: 8px;
 }
 
+.navbar-brand{
+    font-weight: bold;
+    color: #9ef6ff;
+}
+
+.navbar img{
+    height: 40px;
+}
+
 .bg-dark {
     background-color: #51bd32 !important;
 }
@@ -155,6 +164,12 @@ display: block;
 }
 
 .input-group .form-control, .input-group-btn .btn, .custom-file, .custom-file-input, .custom-file-label { z-index: inherit !important; }
+
+.mt-3, .my-3 {
+    margin-top: 0px !important;
+}
+
+
 
 @media only screen and (max-width: 670px){
     .ContentArea {

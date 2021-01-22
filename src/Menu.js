@@ -1,6 +1,8 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import JSONPretty from 'react-json-pretty';
 import LoginButton from './model/LoginButton.js'
 import LogOutButton from './model/LogOutButton.js'
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
@@ -34,9 +36,6 @@ const Menu = () => {
                   ) : (
                     <LoginButton></LoginButton>
                   )}
-                  {/*OAuth Daten*/}
-                  {user}
-
               </li>
               <li className="nav-item">
               {isAuthenticated ? (
@@ -53,8 +52,6 @@ const Menu = () => {
               ) : (
                   null
               )}  
-
-              
             </form>
           </div>
         </nav>
