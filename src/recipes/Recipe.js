@@ -24,26 +24,28 @@ export default class Recipe extends PureComponent {
 
     state = {
         recipe: {},
+        
     }
-
+    
 
      componentDidMount(){
         axios.get('https://recipeapp-spring-backend.herokuapp.com/recipe/' + window.location.pathname.split("/").pop()).then((response) => {
             this.setState({recipe: response.data})
         });
+        
     }
-    
-    
+
+   
 
     render() {
-        console.log(this.state.recipe)
+        
         return (
             <div className="recipe">
-                <h1>{this.state.recipe.name}</h1>
+                <h1 className="w-75">{this.state.recipe.name}</h1>
                 <h3>{this.state.recipe.description}</h3>
                   
                 <div className="container-fluid w-100 h-auto m-0 p-0">  
-                    <img src={this.state.recipe.mainImageUrl} className="img-fluid w-75 h-auto p-0 m-0 rounded " alt="loading"/>           
+                    <img src={this.state.recipe.mainImageUrl} className="img-fluid w-75 h-auto p-0 m-0 rounded " alt=""/>           
                 </div>
 
                 <CategoryList categories={this.state.recipe.categories}/>
@@ -55,7 +57,12 @@ export default class Recipe extends PureComponent {
                 <h3 className= 'mt-3'>Schwierigkeit</h3>
                 <div>{this.state.recipe.difficulty}</div>
 
-                <DeleteButton></DeleteButton>
+                <div>
+       
+          
+        </div>
+
+                <DeleteButton recipe={this.state.recipe.uuid}/>
             </div>
         )
     }

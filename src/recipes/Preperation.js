@@ -6,10 +6,17 @@ export default class Preperation extends PureComponent {
         
         if(this.props.steps) {
             return (  
-                <div>
+                <div className="w-50">
                     <h3 className= 'mb-0'>Schritte</h3>
-                    {this.props.steps.map(step => {
-                        return <div>{step.description}</div>
+                    {this.props.steps.map((step, index) => {
+                        return <div >
+                            <h3>{index+1}</h3>
+                            {step.description}
+                            <div>
+                            <img className="w-100" src={step.imageURL}></img>
+                            </div>
+                           
+                        </div>
                     })}
                 </div>
             )

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import Recipe from './recipes/Recipe'
 import Recipiecards from './recipes/Recipecards'
 import Styles from './style.css'
@@ -9,7 +9,7 @@ import {BrowserRouter as Router, Route, Switch, Link} from "react-router-dom"
 import Input from "./input/Input"
 
 
-export default class ContentArea extends PureComponent {
+export default class ContentArea extends Component {
     render() {
         return (
             <div className="ContentArea">
@@ -27,7 +27,7 @@ export default class ContentArea extends PureComponent {
                             <Sidebar></Sidebar>
                         </Route>
 
-                        <Route path="/addRecipe">
+                        <Route exact path="/addRecipe" component={Input}>
                             <Input/>
                             <Sidebar></Sidebar>
 

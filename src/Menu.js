@@ -6,6 +6,8 @@ import JSONPretty from 'react-json-pretty';
 import LoginButton from './model/LoginButton.js'
 import LogOutButton from './model/LogOutButton.js'
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
+import { Nav } from 'react-bootstrap';
+
 
 
 const Menu = () => {
@@ -39,7 +41,8 @@ const Menu = () => {
               </li>
               <li className="nav-item">
               {isAuthenticated ? (
-                  <a className="nav-link" href="/addRecipe">Rezept hinzufügen</a>
+                
+                  <a className="nav-link" href="/addRecipe" rel="no-refresh"> Rezept hinzufügen</a>
               ) : (
                   null
               )}

@@ -2,20 +2,23 @@ import React from 'react'
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 
-const deleteRecipe = () => {
-    axios.delete('https://recipeapp-spring-backend.herokuapp.com/recipe/' + this.state.recipe.uuid  ).then((response) => {
-        window.location='/'
-    })
-}
 
-const DeleteButton = () => {
+
+const DeleteButton = ({recipe}) => {
     const { isAuthenticated } = useAuth0();
+
+    function deleteRecipe() {
+      axios.delete('https://recipeapp-spring-backend.herokuapp.com/recipe/' + recipe  ).then((response) => {
+          window.location='/'
+      })
+  }
+
     return (
         <div>
         {isAuthenticated ? (
             <button className="btn btn-primary mt-3" type="submit" onClick={() => deleteRecipe()} >Löschen</button>
           ) : (
-            <button className="btn btn-primary mt-3" type="submit" onClick={() => deleteRecipe()} >Löschen</button>
+           null
           )}
         </div>
     )
