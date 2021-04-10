@@ -1,7 +1,11 @@
 ## A Recipe Web App
-The Webapp is Based on React
+A Webapp to view upload and create recipes. The App is based on Nodejs, React and Bootstrap. The authentication functionallity uses 0Auth.
 
 ![alt text](image.jpg)
+Recipe View with login functionallity. Made by @Codingsimon
+
+![alt text](recipe-app-form.jpg)
+Form for creating new recipes. Made by: @Pawedla
 
 ## Installation
 Clone the Repository.
